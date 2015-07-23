@@ -1,0 +1,15 @@
+<ion-view view-title="화분 및 자재" align="left">
+    <div class="bar bar-subheader">
+        <div class="list list-inset">
+            <label class="item item-input">
+                <i class="icon ion-search placeholder-icon"></i>
+                <input type="text" placeholder="화분명 또는 자재명을 입력해주세요" ng-model="searchText">
+            </label>
+        </div>
+    </div>
+    <ion-content class="has-subheader" padding>
+        <pot-list>
+            <pot ng-repeat="p in pots" data="{{p}}"></pot>
+        </pot-list>
+    </ion-content>
+</ion-view>
