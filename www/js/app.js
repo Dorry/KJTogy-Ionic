@@ -1,59 +1,67 @@
-// Ionic Starter App
+var Secure_Key = "SECURE.KEY";
+var doqfhrmdlskey = {u_name:'dorry457',pass:'d4520646'};
 
-// angular.module is a global place for creating, registering and retrieving Angular modules
-// 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
-// the 2nd parameter is an array of 'requires'
-// 'starter.controllers' is found in controllers.js
-angular.module('kjtogy', ['ionic', 'kjtogy.controllers'])
+angular.module('kjtogy', ['ionic', 'kjtogy.controllers', 'kjtogy.services'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
-    if (window.cordova && window.cordova.plugins.Keyboard) {
+    if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
     }
     if (window.StatusBar) {
       // org.apache.cordova.statusbar required
-      StatusBar.styleDefault();
+      StatusBar.styleLightContent();
     }
+
+    window.localStorage.setItem(Secure_Key,JSON.stringify(doqfhrmdlskey));
   });
 })
 
 .config(function($stateProvider, $urlRouterProvider) {
-  $stateProvider
 
-  .state('tab', {
-    url: "/",
-    abstract: true,
-    templateUrl: "templates/tabs.html",
+  $stateProvider.state('login', {
+      url: "/login",
+      templateUrl: "templates/login.html",
+      controller: 'LoginCtrl'
   })
 
+  .state('tab', {
+    url: "/tab",
+    abstract: true,
+    templateUrl: "templates/tabs.html"
+  })
+
+  // Each tab has its own nav history stack:
+
   .state('tab.pot-dash', {
-    url: "/pot-dash",
+    url: '/pot',
     views: {
       'pot-tab': {
-        templateUrl: "templates/pot-dash.html",
+        templateUrl: 'templates/pot-dash.html',
         controller: 'PotDashCtrl'
       }
     }
   })
 
   .state('pot-detail', {
-    url: "/pot-detail",
-    templateUrl: "templates/pot-detail.html",
-    controller: 'PotDetailCtrl'
+      url: '/pot/:potId',
+      templateUrl: 'templates/pot-detail.html',
+      controller: 'PotDetailCtrl'
   })
-  
+
   .state('tab.account', {
-    url: "/account",
+    url: '/account',
     views: {
       'account-tab': {
-        templateUrl: "templates/account.html",
+        templateUrl: 'templates/account.html',
         controller: 'AccountCtrl'
       }
     }
   });
-    
-  $urlRouterProvider.otherwise('/app/playlists');
+
+  // if none of the above states are matched, use this as the fallback
+  $urlRouterProvider.otherwise('/login');
+
 });
