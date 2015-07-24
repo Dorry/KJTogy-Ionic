@@ -1,4 +1,4 @@
-angular.module('kjtogy.controllers', ['kjtogy.services'])
+angular.module('kjtogy.controllers', [])
 
 .directive('potList', function() {
     return {
@@ -11,7 +11,7 @@ angular.module('kjtogy.controllers', ['kjtogy.services'])
 .directive('potItem', function() {
     return {
         restrict: 'E',
-        require: '^potList'
+        require: '^potList',
         scope: {
             item: '=data'
         },
@@ -45,4 +45,8 @@ angular.module('kjtogy.controllers', ['kjtogy.services'])
 
 .controller('PotDetailCtrl', function($scope, $stateParams, $potService) {
     $scope.title = "백자";
+})
+
+.controller('AccountCtrl', function($scope) {
+
 });
