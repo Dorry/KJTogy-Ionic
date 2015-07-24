@@ -6,7 +6,7 @@
 .align {
     margin-top: 50px;
     padding: 250px 40px;
-    background: url('../img/kjtogy.png') #73b618 repeat-x;
+    background: url('../img/kjtogy.png') #73b618 no-repeat;
 }
 
 .thumbnail {

@@ -3,6 +3,7 @@ angular.module('kjtogy.controllers', [])
 .directive('potList', function() {
     return {
         restrict: 'E',
+        replace: true,
         transclude: true,
         template: '<ion-list ng-transclude></ion-list>'
     };
@@ -11,6 +12,7 @@ angular.module('kjtogy.controllers', [])
 .directive('potItem', function() {
     return {
         restrict: 'E',
+        replace: true,
         require: '^potList',
         scope: {
             item: '=data'
@@ -40,7 +42,26 @@ angular.module('kjtogy.controllers', [])
 })
 
 .controller('PotDashCtrl', function($scope, $potService) {
-    $scope.pots = [];
+    $scope.pots = [
+        {
+            pId: 0,
+            potName: '2021-W',
+            potSize: '20.0x24.4x51.7',
+            price: 18000
+        },
+        {
+            pId: 1,
+            potName: '2021-B',
+            potSize: '20.0x24.4x51.7',
+            price: 15000
+        },
+        {
+            pId: 2,
+            potName: '2021-A',
+            potSize: '20.0x24.4x51.7',
+            price: 19000
+        }
+    ];
 })
 
 .controller('PotDetailCtrl', function($scope, $stateParams, $potService) {
