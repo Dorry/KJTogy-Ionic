@@ -11,3 +11,13 @@
 
 .thumbnail {
 }
+
+.merge {
+    float: left;
+}
+
+.item-note {
+    color: #777;
+    font-size: 20px;
+    padding-top: 8px;
+}

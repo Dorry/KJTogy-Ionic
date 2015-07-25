@@ -1,7 +1,7 @@
 var Secure_Key = "SECURE.KEY";
 var doqfhrmdlskey = {u_name:'dorry457',pass:'d4520646'};
 
-angular.module('kjtogy', ['ionic', 'kjtogy.controllers', 'kjtogy.services'])
+angular.module('kjtogy', ['ionic', 'kjtogy.controllers', 'kjtogy.services', 'FilterServices'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {

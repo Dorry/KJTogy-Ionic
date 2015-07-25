@@ -1,6 +1,5 @@
-<ion-view view-title="상품" align="left">
+<ion-view view-title="상품">
     <ion-nav-buttons side="right">
-        <button class="button button-icon icon ion-search"></button>
         <button class="button button-icon icon ion-plus"></button>
     </ion-nav-buttons>
     <ion-content>
@@ -11,12 +10,14 @@
             </label>
         </div>
         <ion-list>
-            <ion-item ng-repeat="p in pots | filter:searchPot" class="item item-avatar-left item-icon-right" href="#/pot/{{p.pId}}">
+            <ion-item ng-repeat="p in pots | filter:searchPot" class="item item-avatar-left item-icon-right light-height" href="#/pot/{{p.pId}}">
                 <!--<img ng-src="" class="thumbnail">-->
-                <h2>{{p.potName}}</h2>
-                <p>{{p.potSize}}</p>
+                <div class="merge">
+                    <h2>{{p.potName}}</h2>
+                    <p>{{p.potSize}}</p>
+                </div>
                 <span class="item-note">
-                    {{p.price}}
+                    {{p.price | won}}
                 </span>
                 <i class="icon ion-chevron-right" style="color:#28a54c"></i>
             </ion-item>
