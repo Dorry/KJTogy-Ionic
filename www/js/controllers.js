@@ -21,16 +21,23 @@ angular.module('kjtogy.controllers', [])
     };
 })
 
-.controller('LoginCtrl', function($scope, $ionicNavBarDelegate, $state, $ionicPopup) {
+.controller('LoginCtrl', function($scope, $ionicNavBarDelegate, $state, $ionicLoading, $ionicPopup) {
     $ionicNavBarDelegate.showBar(false);
     $ionicNavBarDelegate.showBackButton(false);
 
     $scope.login = function(user) {
+        $ionicLoading.show({
+            template: '개인정보 인증중...'
+        });
+
         var secure = JSON.parse(window.localStorage.getItem(Secure_Key));
         if(user.u_name != "" && user.u_pass != "" && user.u_name == secure.u_name && user.u_pass == secure.pass) {
+            $ionicLoading.hide();
             $state.go('tab.pot-dash');
         } else {
             $scope.user = {};
+
+            $ionicLoading.hide();
 
             $ionicPopup.alert({
                 title:'로그인 오류',

@@ -1,3 +1,42 @@
+/* Rebuild Static CSS */
+.item {
+    border-color: #b6b6b6
+}
+.item-avatar-left {
+    min-height: 50px
+}
+.item-avatar-left .item-content {
+    min-height: 50px;
+    padding-left: 60px
+}
+.item-avatar-left .item-content > img:first-child {
+    top: 10px;
+    left: 10px;
+    border-radius: 3px;
+    border: 1px solid #b6b6b6;
+}
+.item-complex .item-content {
+    padding-top: 10px;
+    padding-bottom: 10px
+}
+.item-complex.item-icon-right .item-content {
+    padding-right: 40px
+}
+
+a.item-content {
+    color: #b6b6b6
+}
+.item-note {
+    color: #727272;
+    font-size: 20px;
+    padding-top: 10px;
+}
+
+.item-icon-right .icon {
+    right: 5px;
+    font-size: 25px
+}
+
 /* Empty. Add your own CSS if you like */
 .loginback {
     background: #388e3c
@@ -16,12 +55,6 @@
     float: left;
 }
 
-.item-note {
-    color: #777;
-    font-size: 20px;
-    padding-top: 8px;
-}
-
-.custom:before {
+.icon-size-md:before {
     font-size: 22px !important;
 }
