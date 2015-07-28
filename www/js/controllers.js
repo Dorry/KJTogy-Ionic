@@ -33,7 +33,7 @@ angular.module('kjtogy.controllers', [])
         var secure = JSON.parse(window.localStorage.getItem(Secure_Key));
         if(user.u_name != "" && user.u_pass != "" && user.u_name == secure.u_name && user.u_pass == secure.pass) {
             $ionicLoading.hide();
-            $state.go('dash');
+            $state.go('pot.dash');
         } else {
             $scope.user = {};
 
@@ -51,7 +51,7 @@ angular.module('kjtogy.controllers', [])
 .controller('PotDashCtrl', function($scope, $ionicHistory, $state, $potService) {
     $scope.pots = $potService.getPots();
     $scope.addNewPot = function() {
-        $state.go('add');
+        $state.go('pot.add');
     };
 
     console.info($ionicHistory.viewHistory());

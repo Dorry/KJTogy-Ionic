@@ -28,25 +28,31 @@ angular.module('kjtogy', ['ionic', 'kjtogy.controllers', 'kjtogy.services', 'ngC
       controller: 'LoginCtrl'
   })
 
-  .state('dash', {
+  .state('pot', {
+      url: '',
+      abstract: true,
+      templateUrl: 'templates/pot.html'
+  })
+
+  .state('pot.dash', {
       url: '/pot',
       templateUrl: 'templates/pot-dash.html',
       controller: 'PotDashCtrl'
   })
 
-  .state('detail', {
+  .state('pot.detail', {
       url: '/pot/:potId',
       templateUrl: 'templates/pot-detail.html',
       controller: 'PotDetailCtrl'
   })
 
-  .state('add', {
+  .state('pot.add', {
       url: '/add',
       templateUrl: 'templates/pot-add.html',
       controller: 'PotAddCtrl'
   })
 
-  .state('modify', {
+  .state('pot.modify', {
       url: '/modify/:potId',
       templateUrl: 'templates/pot-modify.html',
       controller: 'PotModifyCtrl'
