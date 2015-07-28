@@ -48,19 +48,24 @@ angular.module('kjtogy.controllers', [])
     };
 })
 
-.controller('PotDashCtrl', function($scope, $potService) {
+.controller('PotDashCtrl', function($scope, $ionicHistory, $state, $potService) {
     $scope.pots = $potService.getPots();
+    $scope.addNewPot = function() {
+        $state.go('add');
+    };
+
+    console.info($ionicHistory.viewHistory());
 })
 
-.controller('PotDetailCtrl', function($scope, $stateParams, $potService) {
+.controller('PotDetailCtrl', function($scope, $ionicHistory, $stateParams, $potService) {
     $scope.title = $potService.getPot($stateParams.potId).potName;
+
+    console.info($ionicHistory.viewHistory());
 })
 
-.controller('PotAddCtrl', function($scope) {
+.controller('PotAddCtrl', function($scope, $stateParams, $potService) {
+    $scope.done = function() {
 
-})
-
-.controller('PotModifyCtrl', function($scope, $stateParams, $potService) {
-
+    };
 });
 
