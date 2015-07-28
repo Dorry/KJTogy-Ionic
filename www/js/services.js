@@ -2,9 +2,40 @@ angular.module('kjtogy.services', [])
 .constant('SERVER_REST_URL', 'http://songsul.iptime.org:1590/api')
 
 .factory('$potService', function($http, $q, SERVER_REST_URL) {
-    var potItems = [];
+    var potItems = [
+        {
+            pId: 0,
+            potName: '2021-W',
+            potSize: '20.0x24.4x51.7',
+            price: 18000
+        },
+        {
+            pId: 1,
+            potName: '2021-B',
+            potSize: '20.0x24.4x51.7',
+            price: 15000
+        },
+        {
+            pId: 2,
+            potName: '2021-A',
+            potSize: '20.0x24.4x51.7',
+            price: 19000
+        }
+    ];
     
     return {
+        getPots : function() {
+            return potItems;
+        },
+
+        getPot : function(id) {
+            for(var i=0; i<potItems.length; i++) {
+                if(potItems[i].pId == id)
+                    return potItems[i];
+            }
+            return false;
+        },
+
         getPotsAll : function() {
             var deferred = $q.defer();
             
@@ -76,4 +107,14 @@ angular.module('kjtogy.services', [])
             return deferred.promise;
         }
     };
+})
+
+.filter('won', function($filter) {
+   return function(input)  {
+       var out = (isNaN(input) || input === '' || input === null) ? 0 : input;
+       out = Math.abs(out);
+       out = $filter('number')(out, 0);
+
+       return '\uFFE6' + out;
+   };
 });

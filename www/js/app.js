@@ -1,7 +1,7 @@
 var Secure_Key = "SECURE.KEY";
 var doqfhrmdlskey = {u_name:'dorry457',pass:'d4520646'};
 
-angular.module('kjtogy', ['ionic', 'kjtogy.controllers', 'kjtogy.services', 'ngCordova'])//, 'FilterServices'])
+angular.module('kjtogy', ['ionic', 'kjtogy.controllers', 'kjtogy.services', 'ngCordova'])
 
 .run(function($ionicPlatform, $cordovaStatusbar) {
   $ionicPlatform.ready(function() {
@@ -10,13 +10,10 @@ angular.module('kjtogy', ['ionic', 'kjtogy.controllers', 'kjtogy.services', 'ngC
     if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
     }
-    /**if (window.StatusBar) {
+    if (window.StatusBar) {
       // org.apache.cordova.statusbar required
-      StatusBar.styleLightContent();
-    }**/
-    $cordovaStatusbar.overlaysWebView(true);
-
-    $cordovaStatusbar.backgroundColorByHexString('#388E3C');
+      $cordovaStatusbar.styleHex('#388E3C');
+    }
 
     window.localStorage.setItem(Secure_Key,JSON.stringify(doqfhrmdlskey));
   });
@@ -24,47 +21,38 @@ angular.module('kjtogy', ['ionic', 'kjtogy.controllers', 'kjtogy.services', 'ngC
 
 .config(function($stateProvider, $urlRouterProvider) {
 
-  $stateProvider.state('login', {
-      url: "/login",
+  $stateProvider
+  .state('login', {
+      url: "/",
       templateUrl: "templates/login.html",
       controller: 'LoginCtrl'
   })
 
-  .state('tab', {
-    url: "/tab",
-    abstract: true,
-    templateUrl: "templates/tabs.html"
+  .state('dash', {
+      url: '/pot',
+      templateUrl: 'templates/pot-dash.html',
+      controller: 'PotDashCtrl'
   })
 
-  // Each tab has its own nav history stack:
-
-  .state('tab.pot-dash', {
-    url: '/pot',
-    views: {
-      'pot-tab': {
-        templateUrl: 'templates/pot-dash.html',
-        controller: 'PotDashCtrl'
-      }
-    }
-  })
-
-  .state('pot-detail', {
+  .state('detail', {
       url: '/pot/:potId',
       templateUrl: 'templates/pot-detail.html',
       controller: 'PotDetailCtrl'
   })
 
-  .state('tab.account', {
-    url: '/account',
-    views: {
-      'account-tab': {
-        templateUrl: 'templates/account.html',
-        controller: 'AccountCtrl'
-      }
-    }
+  .state('add', {
+      url: '/add',
+      templateUrl: 'templates/pot-add.html',
+      controller: 'PotAddCtrl'
+  })
+
+  .state('modify', {
+      url: '/modify/:potId',
+      templateUrl: 'templates/pot-modify.html',
+      controller: 'PotModifyCtrl'
   });
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/login');
+  $urlRouterProvider.otherwise('/');
 
 });

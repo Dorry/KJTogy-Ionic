@@ -33,7 +33,7 @@ angular.module('kjtogy.controllers', [])
         var secure = JSON.parse(window.localStorage.getItem(Secure_Key));
         if(user.u_name != "" && user.u_pass != "" && user.u_name == secure.u_name && user.u_pass == secure.pass) {
             $ionicLoading.hide();
-            $state.go('tab.pot-dash');
+            $state.go('dash');
         } else {
             $scope.user = {};
 
@@ -49,32 +49,18 @@ angular.module('kjtogy.controllers', [])
 })
 
 .controller('PotDashCtrl', function($scope, $potService) {
-    $scope.pots = [
-        {
-            pId: 0,
-            potName: '2021-W',
-            potSize: '20.0x24.4x51.7',
-            price: 18000
-        },
-        {
-            pId: 1,
-            potName: '2021-B',
-            potSize: '20.0x24.4x51.7',
-            price: 15000
-        },
-        {
-            pId: 2,
-            potName: '2021-A',
-            potSize: '20.0x24.4x51.7',
-            price: 19000
-        }
-    ];
+    $scope.pots = $potService.getPots();
 })
 
 .controller('PotDetailCtrl', function($scope, $stateParams, $potService) {
-    $scope.title = "백자";
+    $scope.title = $potService.getPot($stateParams.potId).potName;
 })
 
-.controller('AccountCtrl', function($scope) {
+.controller('PotAddCtrl', function($scope) {
+
+})
+
+.controller('PotModifyCtrl', function($scope, $stateParams, $potService) {
 
 });
+
