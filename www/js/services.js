@@ -24,19 +24,10 @@ angular.module('kjtogy.services', [])
     ];
     
     return {
-        getPots : function() {
-            return potItems;
-        },
+        getPotsAll : function(refresh) {
+            if(!refresh || typeof refresh == 'undefined' || refresh == null)
+                return potItems;
 
-        getPot : function(id) {
-            for(var i=0; i<potItems.length; i++) {
-                if(potItems[i].pId == id)
-                    return potItems[i];
-            }
-            return false;
-        },
-
-        getPotsAll : function() {
             var deferred = $q.defer();
             
             $http.get(SERVER_REST_URL + '/pots')
@@ -52,17 +43,11 @@ angular.module('kjtogy.services', [])
         },
 
         getPotById : function(id) {
-            var deferred = $q.defer();
-            
-            $http.get(SERVER_REST_URL + '/pots/' + id)
-                .success(function(data) {
-                    deferred.resolve(data);
-                })
-                .error(function(error) {
-                    deferred.reject(error);
-                });
-            
-            return deferred.promise;
+            for(var i=0; i<potItems.length; i++) {
+                if(potItems[i].pId == id)
+                    return potItems[i];
+            }
+            return false;
         },
 
         addNewPot : function() {

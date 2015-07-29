@@ -58,3 +58,11 @@ a.item-content {
 .icon-size-md:before {
     font-size: 22px !important;
 }
+
+.button-back-image {
+    width:150px;
+    height:150px;
+    color:#4caf50;
+    border-radius: 10px;
+    border:1px solid #bbb
+}

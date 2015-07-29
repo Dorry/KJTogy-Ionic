@@ -31,10 +31,8 @@ angular.module('kjtogy.controllers', [])
         });
 
         var secure = JSON.parse(window.localStorage.getItem(Secure_Key));
-        if(user.u_name != "" && user.u_pass != "" && user.u_name == secure.u_name && user.u_pass == secure.pass) {
-            $ionicLoading.hide();
-            $state.go('pot.dash');
-        } else {
+        if(typeof user == 'undefined' || user == null ||
+          (user.u_name == "" || user.u_pass == "" || user.u_name != secure.u_name || user.u_pass != secure.pass)) {
             $scope.user = {};
 
             $ionicLoading.hide();
@@ -44,12 +42,16 @@ angular.module('kjtogy.controllers', [])
                 template:'잘못된 정보를 입력하셨습니다.<br> 확인하시고 다시 입력해주세요!',
                 okType:'button-assertive'
             });
+            return;
         }
+
+        $ionicLoading.hide();
+        $state.go('pot.dash');
     };
 })
 
 .controller('PotDashCtrl', function($scope, $ionicHistory, $state, $potService) {
-    $scope.pots = $potService.getPots();
+    $scope.pots = $potService.getPotsAll();
     $scope.addNewPot = function() {
         $state.go('pot.add');
     };
@@ -58,7 +60,7 @@ angular.module('kjtogy.controllers', [])
 })
 
 .controller('PotDetailCtrl', function($scope, $ionicHistory, $stateParams, $potService) {
-    $scope.title = $potService.getPot($stateParams.potId).potName;
+    $scope.pot = $potService.getPotById($stateParams.potId);
 
     console.info($ionicHistory.viewHistory());
 })
@@ -67,5 +69,10 @@ angular.module('kjtogy.controllers', [])
     $scope.done = function() {
 
     };
+})
+
+.controller('PotModifyCtrl', function($scope, $stateParams, $potService) {
+    $scope.pot = $potService.getPotById($stateParams.potId);
+    $scope.backImage = {'background-image':"url('http://placehold.it/150x150')"};
 });
 

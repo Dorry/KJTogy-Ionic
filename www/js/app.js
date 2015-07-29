@@ -23,25 +23,25 @@ angular.module('kjtogy', ['ionic', 'kjtogy.controllers', 'kjtogy.services', 'ngC
 
   $stateProvider
   .state('login', {
-      url: "/",
+      url: "/login",
       templateUrl: "templates/login.html",
       controller: 'LoginCtrl'
   })
 
   .state('pot', {
-      url: '',
+      url: '/pot',
       abstract: true,
-      templateUrl: 'templates/pot.html'
+      template: '<ion-nav-view></ion-nav-view>'
   })
 
   .state('pot.dash', {
-      url: '/pot',
+      url: '/dash',
       templateUrl: 'templates/pot-dash.html',
       controller: 'PotDashCtrl'
   })
 
   .state('pot.detail', {
-      url: '/pot/:potId',
+      url: '/detail/:potId',
       templateUrl: 'templates/pot-detail.html',
       controller: 'PotDetailCtrl'
   })
@@ -59,6 +59,6 @@ angular.module('kjtogy', ['ionic', 'kjtogy.controllers', 'kjtogy.services', 'ngC
   });
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/');
+  $urlRouterProvider.otherwise('/login');
 
 });

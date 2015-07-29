@@ -1,8 +1,24 @@
 <ion-view view-title="상품수정">
-    <ion-content padding="true">
-        <ion-nav-buttons side="right">
-            <button class="button button-icon icon ion-android-done" ng-click="done()"></button>
-        </ion-nav-buttons>
-        <p>상품추가 페이지</p>
+    <ion-nav-buttons side="right">
+        <button class="button button-icon icon ion-android-done" ng-click="done()"></button>
+    </ion-nav-buttons>
+    <ion-content>
+        <ion-list>
+            <ion-item class="full-image" style="border-right:0px; text-align:center">
+                <button class="button button-icon icon ion-plus button-back-image" ng-style="backImage"></button>
+            </ion-item>
+            <ion-item class="item-input">
+                <span class="input-label">상품명</span>
+                <input type="text" ng-model="pot.potName">
+            </ion-item>
+            <ion-item class="item-input">
+                <span class="input-label">상품크기</span>
+                <input type="text" ng-model="pot.potSize">
+            </ion-item>
+            <ion-item class="item-input">
+                <span class="input-label">상품가격</span>
+                <input type="number" ng-model="pot.price">
+            </ion-item>
+        </ion-list>
     </ion-content>
 </ion-view>
