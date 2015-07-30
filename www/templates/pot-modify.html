@@ -1,6 +1,6 @@
 <ion-view view-title="상품수정">
     <ion-nav-buttons side="right">
-        <button class="button button-icon icon ion-android-done" ng-click="done()"></button>
+        <button class="button button-icon icon ion-android-done" ng-click="done(pot)"></button>
     </ion-nav-buttons>
     <ion-content>
         <ion-list>
@@ -17,7 +17,11 @@
             </ion-item>
             <ion-item class="item-input">
                 <span class="input-label">상품가격</span>
-                <input type="number" ng-model="pot.price">
+                <input type="number" ng-model="pot.potPrice">
+            </ion-item>
+            <ion-item class="item-input">
+                <span class="input-label">TAG</span>
+                <input type="text" ng-model="pot.potTag">
             </ion-item>
         </ion-list>
     </ion-content>

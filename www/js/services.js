@@ -7,19 +7,22 @@ angular.module('kjtogy.services', [])
             pId: 0,
             potName: '2021-W',
             potSize: '20.0x24.4x51.7',
-            price: 18000
+            potPrice: 18000,
+            potTag: ''
         },
         {
             pId: 1,
             potName: '2021-B',
             potSize: '20.0x24.4x51.7',
-            price: 15000
+            potPrice: 15000,
+            potTag: ''
         },
         {
             pId: 2,
             potName: '2021-A',
             potSize: '20.0x24.4x51.7',
-            price: 19000
+            potPrice: 19000,
+            potTag: ''
         }
     ];
     
@@ -67,7 +70,7 @@ angular.module('kjtogy.services', [])
         updatePot : function(id, params) {
             var deferred = $q.defer();
             
-            $http.put(SERVER_REST_URL + '/pots/' + id)
+            $http.put(SERVER_REST_URL + '/pots/' + id, params)
                 .success(function(data) {
                     deferred.resolve(data);
                 })

@@ -51,6 +51,8 @@ angular.module('kjtogy.controllers', [])
 })
 
 .controller('PotDashCtrl', function($scope, $ionicHistory, $state, $potService) {
+    $ionicHistory.clearHistory();
+
     $scope.pots = $potService.getPotsAll();
     $scope.addNewPot = function() {
         $state.go('pot.add');
@@ -73,6 +75,18 @@ angular.module('kjtogy.controllers', [])
 
 .controller('PotModifyCtrl', function($scope, $stateParams, $potService) {
     $scope.pot = $potService.getPotById($stateParams.potId);
+
     $scope.backImage = {'background-image':"url('http://placehold.it/150x150')"};
+
+    $scope.done = function(pot) {
+        var params = {
+            'name' : pot.potName,
+            'size' : pot.potSize,
+            'price' : pot.potPrice,
+            'tag' : pot.potTag
+        };
+
+        $potService.updatePot($stateParams.potId, params).then(function(result) {}, function(error) {});
+    };
 });
 
