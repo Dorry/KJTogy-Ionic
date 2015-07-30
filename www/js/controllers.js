@@ -73,10 +73,26 @@ angular.module('kjtogy.controllers', [])
     };
 })
 
-.controller('PotModifyCtrl', function($scope, $stateParams, $potService) {
+.controller('PotModifyCtrl', function($scope, $stateParams, $ionicPopup, $potService) {
     $scope.pot = $potService.getPotById($stateParams.potId);
 
     $scope.backImage = {'background-image':"url('http://placehold.it/150x150')"};
+
+    $scope.deletePot = function() {
+        $ionicPopup.confirm({
+            title : $scope.pot.potName + ' 자료 삭제',
+            template : "정말 '" + $scope.pot.potName + "' 자료를 삭제하시겠습니까?",
+            cancelText : '취소',
+            okText : '삭제',
+            okType : 'button-assertive'
+        }).then(function(res) {
+            console.log('삭제 버튼 눌렀다!!!');
+
+            $potService.deletePot($stateParams.potId).then(function(result) {}, function(error) {});
+        }, function(err) {
+            console.log('취소 버튼 눌렀다!!!');
+        });
+    };
 
     $scope.done = function(pot) {
         var params = {
