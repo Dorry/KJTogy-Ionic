@@ -73,10 +73,31 @@ angular.module('kjtogy.controllers', [])
     };
 })
 
-.controller('PotModifyCtrl', function($scope, $stateParams, $ionicPopup, $potService) {
+.controller('PotModifyCtrl', function($scope, $stateParams, $ionicActionSheet, $ionicPopup, $potService) {
     $scope.pot = $potService.getPotById($stateParams.potId);
 
     $scope.backImage = {'background-image':"url('http://placehold.it/150x150')"};
+
+    $scope.changeImage = function() {
+        var hideSheet = $ionicActionSheet.show({
+            titleText: '사진 선택',
+            buttons: [
+                {text: '<i class="icon ion-camera"></i>카메라'},
+                {text: '<i class="icon ion-image"></i>사진 앨범'}
+            ],
+            destructiveText: '<i class="icon ion-trash-b" style="color:#ff0000"></i>삭제',
+            destructiveButtonClicked: function() {
+                console.warn('삭제버튼 눌러졌습니다.');
+            },
+            cancelText: '취소',
+            cancel: function() {
+                hideSheet();
+            },
+            buttonClicked: function(index) {
+                console.log(index + '번째 버튼 눌러졌습니다.');
+            }
+        });
+    };
 
     $scope.deletePot = function() {
         $ionicPopup.confirm({
@@ -97,9 +118,9 @@ angular.module('kjtogy.controllers', [])
     $scope.done = function(pot) {
         var params = {
             'name' : pot.potName,
-            'size' : pot.potSize,
+            'size' : pot.potSize || '',
             'price' : pot.potPrice,
-            'tag' : pot.potTag
+            'tag' : pot.potTag || ''
         };
 
         $potService.updatePot($stateParams.potId, params).then(function(result) {}, function(error) {});
