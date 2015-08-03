@@ -1,8 +1,14 @@
-<ion-view view-title="{{pot.potName}}">
-    <ion-nav-buttons side="right">
-        <button class="button button-icon icon ion-edit icon-size-md" ui-sref="pot.modify({potId:pot.pId})"></button>
-    </ion-nav-buttons>
+<ion-modal-view>
+    <ion-header-bar align-title="left" class="bar-balanced">
+        <div class="buttons">
+            <button class="button button-icon icon ion-android-arrow-back icon-size-md" ng-click="closeModal()"> {{pot.potName}}</button>
+        </div>
+        <h1 class="title"></h1>
+        <div class="buttons">
+            <button class="button button-icon icon ion-edit icon-size-md" ng-click="modify(pot)"></button>
+        </div>
+    </ion-header-bar>
     <ion-content padding="true">
         {{pot.potSize}} / {{pot.potPrice | won}}
     </ion-content>
-</ion-view>
+</ion-modal-view>

@@ -1,29 +1,6 @@
 angular.module('kjtogy.controllers', [])
 
-.directive('potList', function() {
-    return {
-        restrict: 'E',
-        replace: true,
-        transclude: true,
-        template: '<ion-list ng-transclude></ion-list>'
-    };
-})
-
-.directive('potItem', function() {
-    return {
-        restrict: 'E',
-        replace: true,
-        require: '^potList',
-        scope: {
-            item: '=data'
-        },
-        templateUrl: 'templates/pot-item.html'
-    };
-})
-
-.controller('LoginCtrl', function($scope, $ionicNavBarDelegate, $state, $ionicLoading, $ionicPopup) {
-    $ionicNavBarDelegate.showBar(false);
-    $ionicNavBarDelegate.showBackButton(false);
+.controller('LoginCtrl', function($scope, parameters, $ionicLoading, $ionicPopup) {
 
     $scope.login = function(user) {
         $ionicLoading.show({
@@ -46,35 +23,55 @@ angular.module('kjtogy.controllers', [])
         }
 
         $ionicLoading.hide();
-        $state.go('pot.dash');
+        $scope.closeModal(true);
     };
 })
 
-.controller('PotDashCtrl', function($scope, $ionicHistory, $state, $potService) {
-    $ionicHistory.clearHistory();
+.controller('PotDashCtrl', function($scope, $ionicPlatform, $potService, $kjModal) {
+    $ionicPlatform.ready(function() {
+        $scope.pots = [];
 
-    $scope.pots = $potService.getPotsAll();
+        $scope.isLogin = false;
+
+        if(!$scope.isLogin) {
+            $kjModal.showLogin().then(function(result) {
+                $scope.isLogin = result;
+                $scope.pots = $potService.getPotsAll();
+            });
+        }
+    });
+
+    $scope.viewDetail = function(index) {
+        console.log(index);
+        $kjModal.viewDetail(index).then(function(result) {
+
+        });
+    };
+
     $scope.addNewPot = function() {
-        $state.go('pot.add');
     };
-
-    console.info($ionicHistory.viewHistory());
 })
 
-.controller('PotDetailCtrl', function($scope, $ionicHistory, $stateParams, $potService) {
-    $scope.pot = $potService.getPotById($stateParams.potId);
+.controller('PotDetailCtrl', function($scope, parameters, $potService, $kjModal) {
+    $scope.pot = $potService.getPotsAll()[parameters.index];
 
-    console.info($ionicHistory.viewHistory());
+    $scope.modify = function(pot) {
+        $kjModal.modifyPot(pot).then(function(result) {
+            if(angular.isDefined(result) || result != null) {
+                console.log("Detaile view's result is " + result);
+            }
+        });
+    };
 })
 
-.controller('PotAddCtrl', function($scope, $stateParams, $potService) {
+.controller('PotAddCtrl', function($scope, $potService) {
     $scope.done = function() {
 
     };
 })
 
-.controller('PotModifyCtrl', function($scope, $stateParams, $ionicActionSheet, $ionicPopup, $potService) {
-    $scope.pot = $potService.getPotById($stateParams.potId);
+.controller('PotModifyCtrl', function($scope, parameters, $ionicActionSheet, $ionicPopup, $potService) {
+    $scope.pot = parameters.pot;
 
     $scope.backImage = {'background-image':"url('http://placehold.it/150x150')"};
 
@@ -85,10 +82,6 @@ angular.module('kjtogy.controllers', [])
                 {text: '<i class="icon ion-camera"></i>카메라'},
                 {text: '<i class="icon ion-image"></i>사진 앨범'}
             ],
-            destructiveText: '<i class="icon ion-trash-b" style="color:#ff0000"></i>삭제',
-            destructiveButtonClicked: function() {
-                console.warn('삭제버튼 눌러졌습니다.');
-            },
             cancelText: '취소',
             cancel: function() {
                 hideSheet();
@@ -109,7 +102,7 @@ angular.module('kjtogy.controllers', [])
         }).then(function(res) {
             console.log('삭제 버튼 눌렀다!!!');
 
-            $potService.deletePot($stateParams.potId).then(function(result) {}, function(error) {});
+            $potService.deletePot($scope.pot.potId).then(function(result) {}, function(error) {});
         }, function(err) {
             console.log('취소 버튼 눌렀다!!!');
         });
@@ -123,7 +116,7 @@ angular.module('kjtogy.controllers', [])
             'tag' : pot.potTag || ''
         };
 
-        $potService.updatePot($stateParams.potId, params).then(function(result) {}, function(error) {});
+        $potService.updatePot(pot.potId, params).then(function(result) {}, function(error) {});
     };
 });
 

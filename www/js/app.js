@@ -15,50 +15,6 @@ angular.module('kjtogy', ['ionic', 'kjtogy.controllers', 'kjtogy.services', 'ngC
       $cordovaStatusbar.styleHex('#388E3C');
     }
 
-    window.localStorage.setItem(Secure_Key,JSON.stringify(doqfhrmdlskey));
+    window.localStorage.setItem(Secure_Key, JSON.stringify(doqfhrmdlskey));
   });
-})
-
-.config(function($stateProvider, $urlRouterProvider) {
-
-  $stateProvider
-  .state('login', {
-      url: "/login",
-      templateUrl: "templates/login.html",
-      controller: 'LoginCtrl'
-  })
-
-  .state('pot', {
-      url: '/pot',
-      abstract: true,
-      template: '<ion-nav-view></ion-nav-view>'
-  })
-
-  .state('pot.dash', {
-      url: '/dash',
-      templateUrl: 'templates/pot-dash.html',
-      controller: 'PotDashCtrl'
-  })
-
-  .state('pot.detail', {
-      url: '/detail/:potId',
-      templateUrl: 'templates/pot-detail.html',
-      controller: 'PotDetailCtrl'
-  })
-
-  .state('pot.add', {
-      url: '/add',
-      templateUrl: 'templates/pot-add.html',
-      controller: 'PotAddCtrl'
-  })
-
-  .state('pot.modify', {
-      url: '/modify/:potId',
-      templateUrl: 'templates/pot-modify.html',
-      controller: 'PotModifyCtrl'
-  });
-
-  // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/login');
-
 });

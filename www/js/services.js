@@ -103,16 +103,31 @@ angular.module('kjtogy.services', [])
         show: show
     };
 
-    function show(templateUrl, controller, parameters) {
+    function show(templateUrl, controller, parameters, options) {
         // Grab the injector and create a new scope
         var deferred = $q.defer(),
             ctrlInstance,
             modalScope = $rootScope.$new(),
             thisScopeId = modalScope.$id;
 
+        var parameters = parameters || '';
+
+        var default_options = {
+            animation: 'slide-in-up',
+            focusFirstInput: false,
+            backdropClickToClose : true,
+            hardwareBackButtonClose: true,
+            modalCallback: null
+        };
+
+        options = angular.extend({}, default_options, options);
+
         $ionicModal.fromTemplateUrl(templateUrl, {
             scope: modalScope,
-            animation: 'slide-in-up'
+            animation: options.animation,
+            focusFirstInput: options.focusFirstInput,
+            backdropClickToClose: options.backdropClickToClose,
+            hardwareBackButtonClose: options.hardwareBackButtonClose
         }).then(function (modal) {
             modalScope.modal = modal;
 
@@ -145,7 +160,14 @@ angular.module('kjtogy.services', [])
                 ctrlInstance.closeModal = modalScope.closeModal;
             }
 
-            modalScope.modal.show();
+            modalScope.modal.show()
+                .then(function() {
+                    modalScope.$broadcast('modal.afterShow', modalScope.modal);
+                });
+
+            if(angular.isFunction(options.modalCallback)) {
+                options.modalCallback(modal);
+            }
 
         }, function (err) {
             deferred.reject(err);
@@ -178,6 +200,30 @@ angular.module('kjtogy.services', [])
         }
 
         return result;
+    }
+})
+
+.factory('$kjModal', function($modalService) {
+    return {
+        showLogin: showLogin,
+        viewDetail: viewDetail,
+        modifyPot: modifyPot
+    };
+
+    function showLogin() {
+        var opts = {
+            backdropClickToClose: false,
+            hardwareBackButtonClose: false
+        };
+        return $modalService.show('templates/login.html', 'LoginCtrl', '', opts);
+    }
+
+    function viewDetail(index) {
+        return $modalService.show('templates/pot-detail.html', 'PotDetailCtrl', {index: index});
+    }
+
+    function modifyPot(pot) {
+        return $modalService.show('templates/pot-modify.html', 'PotModifyCtrl', {pot: pot});
     }
 })
 

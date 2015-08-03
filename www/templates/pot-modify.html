@@ -1,8 +1,14 @@
-<ion-view view-title="상품수정">
-    <ion-nav-buttons side="right">
-        <button class="button button-icon icon ion-trash-b" ng-click="deletePot()"></button>
-        <button class="button button-icon icon ion-android-done" ng-click="done(pot)"></button>
-    </ion-nav-buttons>
+<ion-modal-view>
+    <ion-header-bar align-title="left" class="bar-balanced">
+        <div class="buttons">
+            <button class="button button-icon icon ion-android-arrow-back icon-size-md" ng-click="closeModal()"> 상품수정</button>
+        </div>
+        <h1 class="title"></h1>
+        <div class="buttons">
+            <button class="button button-icon icon ion-trash-b icon-size-md" ng-click="deletePot()"></button>
+            <button class="button button-icon icon ion-android-done icon-size-md" ng-click="done(pot)"></button>
+        </div>
+    </ion-header-bar>
     <ion-content>
         <ion-list>
             <ion-item class="full-image" style="border-right:0px; text-align:center">
@@ -26,4 +32,4 @@
             </ion-item>
         </ion-list>
     </ion-content>
-</ion-view>
+</ion-modal-view>
