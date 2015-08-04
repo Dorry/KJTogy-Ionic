@@ -89,3 +89,10 @@ md-select:not([disabled]):focus .md-select-label {
     border-radius: 10px;
     border:1px solid #bbb
 }
+
+.searchInput {
+    height: 22px !important;
+    margin-left: 5px !important;
+    padding-top: 0px !important;
+    padding-right: 14px !important
+}

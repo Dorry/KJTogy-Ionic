@@ -34,17 +34,17 @@
                 <div class="list" style="margin:0px; width:220px">
                     <label class="item item-input">
                         <i class="icon ion-search placeholder-icon"></i>
-                        <input type="text" placeholder="상품명을 입력해주세요" ng-model="searchPot" style="height:22px">
+                        <input type="text" placeholder="상품명을 입력해주세요" ng-model="searchPot" class="searchInput">
                     </label>
                 </div>
-                <md-select ng-model="potType" placeholder="화분타입">
+                <md-select ng-model="pType">
                     <md-option ng-repeat="type in potTypes" ng-value="type.value">{{type.name}}</md-option>
                 </md-select>
             </div>
         </ion-header-bar>
         <ion-content class="has-subheader">
             <ion-list ng-if="pots.length">
-                <ion-item ng-repeat="p in pots | filter:searchPot" class="item item-avatar-left item-icon-right light-height" ng-click="viewDetail($index)" >
+                <ion-item ng-repeat="p in pots | filter:searchPot | potype:pType" class="item item-avatar-left item-icon-right light-height" ng-click="viewDetail($index)" >
                     <img ng-src="http://placehold.it/50x50">
                     <div class="merge">
                         <h2>{{p.potName}}</h2>

@@ -55,6 +55,7 @@ angular.module('kjtogy.controllers', [])
                 $scope.isLogin = result;
                 $scope.pots = $potService.getPotsAll();
                 $scope.potTypes = $potService.getPotTypes();
+                $scope.pType = '';
             });
         }
 

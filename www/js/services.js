@@ -6,33 +6,36 @@ angular.module('kjtogy.services', [])
         {
             pId: 0,
             potName: '2021-W',
+            potType: 1,
             potSize: '20.0x24.4x51.7',
             potPrice: 18000,
-            potTag: ''
+            potTag: 'LIFE'
         },
         {
             pId: 1,
             potName: '2021-B',
+            potType: 3,
             potSize: '20.0x24.4x51.7',
             potPrice: 15000,
-            potTag: ''
+            potTag: 'Bicycle'
         },
         {
             pId: 2,
             potName: '2021-A',
+            potType: 1,
             potSize: '20.0x24.4x51.7',
             potPrice: 19000,
-            potTag: ''
+            potTag: '다이아'
         }
     ];
     
     var potTypes = [
-        {name: 'ALL', value: ''},
+        {name: '모든화분', value: ''},
         {name: '백자화분', value: 1},
         {name: '컬러화분', value: 2},
         {name: '마블화분', value: 3},
         {name: '옹기화분', value: 4},
-        {name: '받침', value: 5},
+        {name: '화분받침', value: 5},
         {name: '기타자재', value: 6}
     ];
 
@@ -242,11 +245,35 @@ angular.module('kjtogy.services', [])
 })
 
 .filter('won', function($filter) {
-   return function(input)  {
+   return function(input) {
        var out = (isNaN(input) || input === '' || input === null) ? 0 : input;
        out = Math.abs(out);
        out = $filter('number')(out, 0);
 
        return '\uFFE6' + out;
    };
+})
+
+.filter('potype', function() {
+    return function(pots, type) {
+        if(type == '')
+            return pots;
+
+        var out = [];
+        angular.forEach(pots, function(pot) {
+            if(pot.potType === type)
+                out.push(pot);
+        });
+
+        return out;
+    };
+})
+
+.filter('potname', function() {
+    return function(pots, search) {
+        if(angular.isUndefined(search) || search == null)
+            return pots;
+
+        //if()
+    };
 });
