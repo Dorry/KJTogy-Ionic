@@ -6,9 +6,12 @@
         <title></title>
 
         <link rel="stylesheet" href="css/ionic.app.css">
+        <link rel="stylesheet" href="lib/angular-material/angular-material.min.css">
         <link rel="stylesheet" href="css/style.css">
 
         <script src="lib/ionic/js/ionic.bundle.js"></script>
+        <script src="lib/angular-aria/angular-aria.min.js"></script>
+        <script src="lib/angular-material/angular-material.min.js"></script>
         <script src="lib/ng-cordova.min.js"></script>
 
         <script src="cordova.js"></script>
@@ -27,11 +30,16 @@
             </div>
         </ion-header-bar>
         <ion-header-bar class="has-header bar-subheader bar-balanced" ng-show="pots.length">
-            <div class="list" style="margin:0px">
-                <label class="item item-input">
-                    <i class="icon ion-search placeholder-icon"></i>
-                    <input type="text" placeholder="상품명을 입력해주세요" ng-model="searchPot" style="height:22px">
-                </label>
+            <div layout="row">
+                <div class="list" style="margin:0px; width:220px">
+                    <label class="item item-input">
+                        <i class="icon ion-search placeholder-icon"></i>
+                        <input type="text" placeholder="상품명을 입력해주세요" ng-model="searchPot" style="height:22px">
+                    </label>
+                </div>
+                <md-select ng-model="potType" placeholder="화분타입">
+                    <md-option ng-repeat="type in potTypes" ng-value="type.value">{{type.name}}</md-option>
+                </md-select>
             </div>
         </ion-header-bar>
         <ion-content class="has-subheader">

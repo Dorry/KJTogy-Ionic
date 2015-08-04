@@ -26,7 +26,21 @@ angular.module('kjtogy.services', [])
         }
     ];
     
+    var potTypes = [
+        {name: 'ALL', value: ''},
+        {name: '백자화분', value: 1},
+        {name: '컬러화분', value: 2},
+        {name: '마블화분', value: 3},
+        {name: '옹기화분', value: 4},
+        {name: '받침', value: 5},
+        {name: '기타자재', value: 6}
+    ];
+
     return {
+        getPotTypes: function() {
+            return potTypes;
+        },
+
         getPotsAll : function(refresh) {
             if(!refresh || typeof refresh == 'undefined' || refresh == null)
                 return potItems;

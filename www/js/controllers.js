@@ -1,6 +1,23 @@
 angular.module('kjtogy.controllers', [])
 
-.controller('LoginCtrl', function($scope, parameters, $ionicLoading, $ionicPopup) {
+.controller('LoginCtrl', function($scope, parameters, $ionicPlatform, $ionicLoading, $ionicPopup) {
+    var app_exit = $ionicPlatform.registerBackButtonAction(function() {
+        $ionicPopup.confirm({
+            title : '경진토기 APP',
+            template : "앱을 종료하시겠습니까?",
+            cancelText : '취소',
+            okText : '종료',
+            okType : 'button-assertive'
+        }).then(function(res) {
+            if(res) {
+                navigator.app.exitApp();
+                app_exit();
+            }
+        }, function(err) {
+            console.error("err " + err);
+        });
+
+    }, 201);
 
     $scope.login = function(user) {
         $ionicLoading.show({
@@ -37,8 +54,28 @@ angular.module('kjtogy.controllers', [])
             $kjModal.showLogin().then(function(result) {
                 $scope.isLogin = result;
                 $scope.pots = $potService.getPotsAll();
+                $scope.potTypes = $potService.getPotTypes();
             });
         }
+
+        var app_exit = $ionicPlatform.registerBackButtonAction(function() {
+            $ionicPopup.confirm({
+                title : '경진토기 APP',
+                template : "앱을 종료하시겠습니까?",
+                cancelText : '취소',
+                okText : '종료',
+                okType : 'button-assertive'
+            }).then(function(res) {
+                if(res) {
+                    navigator.app.exitApp();
+                    app_exit();
+                }
+            }, function(err) {
+                console.error("err " + err);
+            });
+
+        }, 101);
+
     });
 
     $scope.viewDetail = function(index) {
@@ -100,11 +137,23 @@ angular.module('kjtogy.controllers', [])
             okText : '삭제',
             okType : 'button-assertive'
         }).then(function(res) {
-            console.log('삭제 버튼 눌렀다!!!');
+            if(res) {
+                console.log('삭제 버튼 눌렀다!!!');
 
-            $potService.deletePot($scope.pot.potId).then(function(result) {}, function(error) {});
+                $potService.deletePot($scope.pot.potId)
+                .then(function(result) {
+                    console.log(result);
+                    $scope.closeModal();
+                },
+                function(error) {
+                    console.error(error);
+                });
+
+            } else {
+                console.log('취소 버튼 눌렀다!!!');
+            }
         }, function(err) {
-            console.log('취소 버튼 눌렀다!!!');
+            console.error("err " + err);
         });
     };
 
@@ -116,7 +165,14 @@ angular.module('kjtogy.controllers', [])
             'tag' : pot.potTag || ''
         };
 
-        $potService.updatePot(pot.potId, params).then(function(result) {}, function(error) {});
+        $potService.updatePot(pot.potId, params)
+        .then(function(result) {
+            console.log(result);
+            $scope.closeModal();
+        },
+        function(error) {
+            console.error(error);
+        });
     };
 });
 

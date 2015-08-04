@@ -40,6 +40,23 @@ a.item-content {
     font-size: 25px
 }
 
+md-select {
+    position: absolute;
+    float: right;
+    padding:0px 5px 0px 30px;
+    right: 10px;
+    font-size: 16px;
+}
+
+md-select > span {
+    color: #fff
+}
+
+md-select:not([disabled]):focus .md-select-label {
+    border:0px;
+    border-bottom-color: #fff;
+    color: #fff;
+}
 /* Empty. Add your own CSS if you like */
 .loginback {
     background: #388e3c
