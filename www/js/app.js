@@ -1,7 +1,7 @@
 var Secure_Key = "SECURE.KEY";
 var doqfhrmdlskey = {u_name:'dorry457',pass:'d4520646'};
 
-angular.module('kjtogy', ['ionic', 'kjtogy.controllers', 'kjtogy.services', 'ngCordova', 'ngMaterial'])
+angular.module('kjtogy', ['ionic', 'kjtogy.controllers', 'kjtogy.services', 'ngCordova'])
 
 .run(function($ionicPlatform, $cordovaStatusbar) {
   $ionicPlatform.ready(function() {

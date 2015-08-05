@@ -1,6 +1,6 @@
 /* Rebuild Static CSS */
 .item {
-    border-color: #b6b6b6
+    border-color: #b6b6b6;
 }
 .item-avatar-left {
     min-height: 50px
@@ -16,7 +16,8 @@
     border: 1px solid #b6b6b6;
 }
 .item-avatar-left > img:first-child {
-    border-radius: 5px
+    border-radius: 5px;
+    top: 9px
 }
 .item-complex .item-content {
     padding-top: 10px;
@@ -40,23 +41,6 @@ a.item-content {
     font-size: 25px
 }
 
-md-select {
-    position: absolute;
-    float: right;
-    padding:0px 5px 0px 30px;
-    right: 10px;
-    font-size: 16px;
-}
-
-md-select > span {
-    color: #fff
-}
-
-md-select:not([disabled]):focus .md-select-label {
-    border:0px;
-    border-bottom-color: #fff;
-    color: #fff;
-}
 /* Empty. Add your own CSS if you like */
 .loginback {
     background: #388e3c
@@ -70,6 +54,11 @@ md-select:not([disabled]):focus .md-select-label {
 
 .merge {
     float: left;
+}
+
+.pot-list {
+    padding-top:8px !important;
+    padding-bottom:8px !important
 }
 
 .icon-size-md:before {
@@ -95,4 +84,17 @@ md-select:not([disabled]):focus .md-select-label {
     margin-left: 5px !important;
     padding-top: 0px !important;
     padding-right: 14px !important
+}
+
+.select-pType {
+    position: absolute;
+    float: right;
+    padding: 5px 5px 0px 30px;
+    top: 0px;
+    right: 10px;
+    font-size: 16px;
+}
+
+.popover-item {
+    padding:14px !important
 }

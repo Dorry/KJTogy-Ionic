@@ -70,10 +70,10 @@ angular.module('kjtogy.services', [])
             return false;
         },
 
-        addNewPot : function() {
+        addNewPot : function(params) {
             var deferred = $q.defer();
             
-            $http.post(SERVER_REST_URL + '/pots')
+            $http.post(SERVER_REST_URL + '/pots', params)
                 .success(function(data) {
                     deferred.resolve(data);
                 })
@@ -223,6 +223,7 @@ angular.module('kjtogy.services', [])
 .factory('$kjModal', function($modalService) {
     return {
         showLogin: showLogin,
+        addNewPot: addNewPot,
         viewDetail: viewDetail,
         modifyPot: modifyPot
     };
@@ -233,6 +234,10 @@ angular.module('kjtogy.services', [])
             hardwareBackButtonClose: false
         };
         return $modalService.show('templates/login.html', 'LoginCtrl', '', opts);
+    }
+
+    function addNewPot() {
+        return $modalService.show('templates/pot-add.html', 'PotAddCtrl', '');
     }
 
     function viewDetail(index) {

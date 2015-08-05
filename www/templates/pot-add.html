@@ -1,8 +1,34 @@
-<ion-view view-title="상품추가">
+<ion-modal-view>
+    <ion-header-bar align-title="left" class="bar-balanced">
+        <div class="buttons">
+            <button class="button button-icon icon ion-android-arrow-back icon-size-md" ng-click="closeModal()"> 상품추가</button>
+        </div>
+        <h1 class="title"></h1>
+        <div class="buttons">
+            <button class="button button-icon icon ion-android-done icon-size-md" ng-click="done(pot)"></button>
+        </div>
+    </ion-header-bar>
     <ion-content>
-        <ion-nav-buttons side="right">
-            <button class="button button-icon icon ion-android-done" ng-click="done()"></button>
-        </ion-nav-buttons>
-        <p>상품추가 페이지</p>
+        <ion-list>
+            <ion-item class="full-image" style="border-right:0px; text-align:center">
+                <button class="button button-icon icon ion-plus button-back-image" ng-style="backImage" ng-click="changeImage()"></button>
+            </ion-item>
+            <ion-item class="item-input">
+                <span class="input-label">상품명</span>
+                <input type="text" ng-model="pot.potName">
+            </ion-item>
+            <ion-item class="item-input">
+                <span class="input-label">상품크기</span>
+                <input type="text" ng-model="pot.potSize">
+            </ion-item>
+            <ion-item class="item-input">
+                <span class="input-label">상품가격</span>
+                <input type="number" ng-model="pot.potPrice">
+            </ion-item>
+            <ion-item class="item-input">
+                <span class="input-label">TAG</span>
+                <input type="text" ng-model="pot.potTag">
+            </ion-item>
+        </ion-list>
     </ion-content>
-</ion-view>
+</ion-modal-view>

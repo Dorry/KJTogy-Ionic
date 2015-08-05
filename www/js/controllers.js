@@ -44,7 +44,7 @@ angular.module('kjtogy.controllers', [])
     };
 })
 
-.controller('PotDashCtrl', function($scope, $ionicPlatform, $potService, $kjModal) {
+.controller('PotDashCtrl', function($scope, $ionicPlatform, $ionicPopover, $potService, $kjModal) {
     $ionicPlatform.ready(function() {
         $scope.pots = [];
 
@@ -55,7 +55,7 @@ angular.module('kjtogy.controllers', [])
                 $scope.isLogin = result;
                 $scope.pots = $potService.getPotsAll();
                 $scope.potTypes = $potService.getPotTypes();
-                $scope.pType = '';
+                $scope.pType = $scope.potTypes[0];
             });
         }
 
@@ -76,8 +76,31 @@ angular.module('kjtogy.controllers', [])
             });
 
         }, 101);
-
     });
+
+    // ionic Popover config
+    $ionicPopover.fromTemplateUrl('templates/popover/pot-type.html', {
+        scope: $scope
+    }).then(function(popover) {
+        $scope.popover = popover;
+    },
+    function(err) {
+        console.error(err);
+    });
+
+    $scope.showType = function($event) {
+        $scope.popover.show($event);
+    };
+
+    $scope.closeType = function(value) {
+        angular.forEach($scope.potTypes, function(type) {
+            if(type.value === value)
+                $scope.pType = type;
+        });
+
+        $scope.popover.hide();
+    }
+    // end ionic Popover config
 
     $scope.viewDetail = function(index) {
         console.log(index);
@@ -87,6 +110,9 @@ angular.module('kjtogy.controllers', [])
     };
 
     $scope.addNewPot = function() {
+        $kjModal.addNewPot().then(function(result) {
+
+        });
     };
 })
 
@@ -102,9 +128,47 @@ angular.module('kjtogy.controllers', [])
     };
 })
 
-.controller('PotAddCtrl', function($scope, $potService) {
-    $scope.done = function() {
+.controller('PotAddCtrl', function($scope, parameters, $ionicActionSheet, $ionicPopup, $potService) {
+    $scope.backImage = {'background-image':"url('http://placehold.it/150x150')"};
 
+    $scope.changeImage = function() {
+        var hideSheet = $ionicActionSheet.show({
+            titleText: '사진 선택',
+            buttons: [
+                {text: '<i class="icon ion-camera"></i>카메라'},
+                {text: '<i class="icon ion-image"></i>사진 앨범'}
+            ],
+            cancelText: '취소',
+            cancel: function() {
+                hideSheet();
+            },
+            buttonClicked: function(index) {
+                console.log(index + '번째 버튼 눌러졌습니다.');
+            }
+        });
+    };
+
+    $scope.done = function(pot) {
+        if(angular.isUndefined(pot)) {
+            alert('빈란은 없어야 됩니다.');
+            return;
+        }
+
+        var params = {
+            'name' : pot.potName,
+            'size' : pot.potSize || '',
+            'price' : pot.potPrice,
+            'tag' : pot.potTag || ''
+        };
+
+        $potService.addNewPot(params)
+        .then(function(result) {
+            console.log(result);
+            $scope.closeModal();
+        },
+        function(error) {
+            console.error(error);
+        });
     };
 })
 
