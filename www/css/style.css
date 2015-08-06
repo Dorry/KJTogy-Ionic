@@ -98,3 +98,7 @@ a.item-content {
 .popover-item {
     padding:14px !important
 }
+.popover-item.activated {
+    background-color: rgba(0,0,0,0.2) !important;
+    color: #fff !important
+}
