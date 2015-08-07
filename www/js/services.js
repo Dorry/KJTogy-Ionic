@@ -243,8 +243,8 @@ angular.module('kjtogy.services', [])
         return $modalService.show('templates/modal/pot-addmod.html', 'PotAddModCtrl', param);
     }
 
-    function viewDetail(index) {
-        return $modalService.show('templates/modal/pot-detail.html', 'PotDetailCtrl', {index: index});
+    function viewDetail(id) {
+        return $modalService.show('templates/modal/pot-detail.html', 'PotDetailCtrl', {id: id});
     }
 
 })

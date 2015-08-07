@@ -5,6 +5,7 @@
         </div>
         <h1 class="title"></h1>
         <div class="buttons">
+            <button class="button button-icon icon ion-trash-b icon-size-md" ng-click="deletePot()"></button>
             <button class="button button-icon icon ion-android-done icon-size-md" ng-click="done(pot)"></button>
         </div>
     </ion-header-bar>
@@ -17,6 +18,13 @@
                 <span class="input-label">상품명</span>
                 <input type="text" name="name" ng-model="pot.potName" required="required">
             </label>
+            <ion-item class="item-input">
+                <span class="input-label">상품타입</span>
+                <div ng-click="showType($event)">
+                    <span>{{pot.potType.name}}</span>
+                    <i id="dropdown" class="icon ion-android-arrow-dropdown"></i>
+                </div>
+            </ion-item>
             <label class="item item-input">
                 <span class="input-label">상품가격</span>
                 <input type="number" name="price" ng-model="pot.potPrice" required="required">

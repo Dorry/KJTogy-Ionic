@@ -117,7 +117,7 @@ angular.module('kjtogy.controllers', [])
 })
 
 .controller('PotDetailCtrl', function($scope, parameters, $potService, $kjModal) {
-    $scope.pot = $potService.getPotsAll()[parameters.index];
+    $scope.pot = $potService.getPotById(parameters.id);
 
     $scope.modify = function(pot) {
         $kjModal.addModPot(pot).then(function(result) {
@@ -128,11 +128,15 @@ angular.module('kjtogy.controllers', [])
     };
 })
 
-.controller('PotAddModCtrl', function($scope, parameters, $ionicActionSheet, $ionicPopup, $potService) {
-    if(angular.isUndefined(parameters) || parameters === null) {
+.controller('PotAddModCtrl', function($scope, parameters, $ionicPopover, $ionicActionSheet, $ionicPopup, $potService) {
+    $scope.potTypes = $potService.getPotTypes();
+    $scope.potTypes.shift();
+
+    if(angular.isUndefined(parameters.pot) || parameters.pot === null) {
         $scope.title = "상품추가";
         $scope.pot = {
             potName: '',
+            potType: $scope.potTypes[0],
             potPrice: 0,
             potSize: '',
             potTag: ''
@@ -169,6 +173,32 @@ angular.module('kjtogy.controllers', [])
             });
         };
     }
+
+    // ionic Popover config
+    $ionicPopover.fromTemplateUrl('templates/popover/pot-type.html', {
+        scope: $scope
+    }).then(function(popover) {
+        $scope.popover = popover;
+    },
+    function(err) {
+        console.error(err);
+    });
+
+    $scope.showType = function($event) {
+        $scope.popover.show($event);
+    };
+
+    $scope.closeType = function(value) {
+        angular.forEach($scope.potTypes, function(type) {
+            if(type.value === value) {
+                $scope.pot.potType = type;
+                console.log($scope.pot.potType);
+            }
+        });
+
+        $scope.popover.hide();
+    }
+    // end ionic Popover config
 
     $scope.backImage = {'background-image':"url('http://placehold.it/150x150')"};
 
