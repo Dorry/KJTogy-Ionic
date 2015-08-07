@@ -236,17 +236,18 @@ angular.module('kjtogy.services', [])
         return $modalService.show('templates/login.html', 'LoginCtrl', '', opts);
     }
 
-    function addNewPot() {
-        return $modalService.show('templates/pot-add.html', 'PotAddCtrl', '');
+    function addNewPot(param) {
+        if(param !== null) {
+            param = {pot: param};
+        }
+
+        return $modalService.show('templates/pot-addmod.html', 'PotAddModCtrl', param);
     }
 
     function viewDetail(index) {
         return $modalService.show('templates/pot-detail.html', 'PotDetailCtrl', {index: index});
     }
 
-    function modifyPot(pot) {
-        return $modalService.show('templates/pot-modify.html', 'PotModifyCtrl', {pot: pot});
-    }
 })
 
 .filter('won', function($filter) {
@@ -271,14 +272,5 @@ angular.module('kjtogy.services', [])
         });
 
         return out;
-    };
-})
-
-.filter('potname', function() {
-    return function(pots, search) {
-        if(angular.isUndefined(search) || search == null)
-            return pots;
-
-        //if()
     };
 });

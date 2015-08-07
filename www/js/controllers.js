@@ -48,16 +48,16 @@ angular.module('kjtogy.controllers', [])
     $ionicPlatform.ready(function() {
         $scope.pots = [];
 
-        $scope.isLogin = false;
+        $scope.isLogin = true;//false;
 
-        if(!$scope.isLogin) {
-            $kjModal.showLogin().then(function(result) {
-                $scope.isLogin = result;
+        //if(!$scope.isLogin) {
+        //    $kjModal.showLogin().then(function(result) {
+        //        $scope.isLogin = result;
                 $scope.pots = $potService.getPotsAll();
                 $scope.potTypes = $potService.getPotTypes();
                 $scope.pType = $scope.potTypes[0];
-            });
-        }
+        //    });
+        //}
 
         var app_exit = $ionicPlatform.registerBackButtonAction(function() {
             $ionicPopup.confirm({
@@ -128,7 +128,46 @@ angular.module('kjtogy.controllers', [])
     };
 })
 
-.controller('PotAddCtrl', function($scope, parameters, $ionicActionSheet, $ionicPopup, $potService) {
+.controller('PotAddModCtrl', function($scope, parameters, $ionicActionSheet, $ionicPopup, $potService) {
+    if(angular.isUndefined(parameters) || parameters === null) {
+        $scope.pot = {
+            potName: '',
+            potPrice: 0,
+            potSize: '',
+            potTag: ''
+        };
+    } else {
+        $scope.pot = parameters.pot;
+
+        $scope.deletePot = function() {
+            $ionicPopup.confirm({
+                title : $scope.pot.potName + ' 자료 삭제',
+                template : "정말 '" + $scope.pot.potName + "' 자료를 삭제하시겠습니까?",
+                cancelText : '취소',
+                okText : '삭제',
+                okType : 'button-assertive'
+            }).then(function(res) {
+                if(res) {
+                    console.log('삭제 버튼 눌렀다!!!');
+
+                    $potService.deletePot($scope.pot.potId)
+                    .then(function(result) {
+                        console.log(result);
+                        $scope.closeModal();
+                    },
+                    function(error) {
+                        console.error(error);
+                    });
+
+                } else {
+                    console.log('취소 버튼 눌렀다!!!');
+                }
+            }, function(err) {
+                console.error("err " + err);
+            });
+        };
+    }
+
     $scope.backImage = {'background-image':"url('http://placehold.it/150x150')"};
 
     $scope.changeImage = function() {
@@ -162,75 +201,6 @@ angular.module('kjtogy.controllers', [])
         };
 
         $potService.addNewPot(params)
-        .then(function(result) {
-            console.log(result);
-            $scope.closeModal();
-        },
-        function(error) {
-            console.error(error);
-        });
-    };
-})
-
-.controller('PotModifyCtrl', function($scope, parameters, $ionicActionSheet, $ionicPopup, $potService) {
-    $scope.pot = parameters.pot;
-
-    $scope.backImage = {'background-image':"url('http://placehold.it/150x150')"};
-
-    $scope.changeImage = function() {
-        var hideSheet = $ionicActionSheet.show({
-            titleText: '사진 선택',
-            buttons: [
-                {text: '<i class="icon ion-camera"></i>카메라'},
-                {text: '<i class="icon ion-image"></i>사진 앨범'}
-            ],
-            cancelText: '취소',
-            cancel: function() {
-                hideSheet();
-            },
-            buttonClicked: function(index) {
-                console.log(index + '번째 버튼 눌러졌습니다.');
-            }
-        });
-    };
-
-    $scope.deletePot = function() {
-        $ionicPopup.confirm({
-            title : $scope.pot.potName + ' 자료 삭제',
-            template : "정말 '" + $scope.pot.potName + "' 자료를 삭제하시겠습니까?",
-            cancelText : '취소',
-            okText : '삭제',
-            okType : 'button-assertive'
-        }).then(function(res) {
-            if(res) {
-                console.log('삭제 버튼 눌렀다!!!');
-
-                $potService.deletePot($scope.pot.potId)
-                .then(function(result) {
-                    console.log(result);
-                    $scope.closeModal();
-                },
-                function(error) {
-                    console.error(error);
-                });
-
-            } else {
-                console.log('취소 버튼 눌렀다!!!');
-            }
-        }, function(err) {
-            console.error("err " + err);
-        });
-    };
-
-    $scope.done = function(pot) {
-        var params = {
-            'name' : pot.potName,
-            'size' : pot.potSize || '',
-            'price' : pot.potPrice,
-            'tag' : pot.potTag || ''
-        };
-
-        $potService.updatePot(pot.potId, params)
         .then(function(result) {
             console.log(result);
             $scope.closeModal();

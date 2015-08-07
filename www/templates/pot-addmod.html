@@ -8,27 +8,27 @@
             <button class="button button-icon icon ion-android-done icon-size-md" ng-click="done(pot)"></button>
         </div>
     </ion-header-bar>
-    <ion-content>
-        <ion-list>
+    <ion-content padding="true">
+        <ion-list class="list">
             <ion-item class="full-image" style="border-right:0px; text-align:center">
                 <button class="button button-icon icon ion-plus button-back-image" ng-style="backImage" ng-click="changeImage()"></button>
             </ion-item>
-            <ion-item class="item-input">
+            <label class="item item-input">
                 <span class="input-label">상품명</span>
-                <input type="text" ng-model="pot.potName">
-            </ion-item>
-            <ion-item class="item-input">
-                <span class="input-label">상품크기</span>
-                <input type="text" ng-model="pot.potSize">
-            </ion-item>
-            <ion-item class="item-input">
+                <input type="text" name="name" ng-model="pot.potName" required="required">
+            </label>
+            <label class="item item-input">
                 <span class="input-label">상품가격</span>
-                <input type="number" ng-model="pot.potPrice">
-            </ion-item>
-            <ion-item class="item-input">
+                <input type="number" name="price" ng-model="pot.potPrice" required="required">
+            </label>
+            <label class="item item-input">
+                <span class="input-label">상품크기</span>
+                <input type="text" name="size" ng-model="pot.potSize">
+            </label>
+            <label class="item item-input">
                 <span class="input-label">TAG</span>
-                <input type="text" ng-model="pot.potTag">
-            </ion-item>
+                <input type="text" name="tag" ng-model="pot.potTag">
+            </label>
         </ion-list>
     </ion-content>
 </ion-modal-view>
