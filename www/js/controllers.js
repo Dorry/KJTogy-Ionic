@@ -110,7 +110,7 @@ angular.module('kjtogy.controllers', [])
     };
 
     $scope.addNewPot = function() {
-        $kjModal.addNewPot().then(function(result) {
+        $kjModal.addModPot(null).then(function(result) {
 
         });
     };
@@ -120,7 +120,7 @@ angular.module('kjtogy.controllers', [])
     $scope.pot = $potService.getPotsAll()[parameters.index];
 
     $scope.modify = function(pot) {
-        $kjModal.modifyPot(pot).then(function(result) {
+        $kjModal.addModPot(pot).then(function(result) {
             if(angular.isDefined(result) || result != null) {
                 console.log("Detaile view's result is " + result);
             }
@@ -130,6 +130,7 @@ angular.module('kjtogy.controllers', [])
 
 .controller('PotAddModCtrl', function($scope, parameters, $ionicActionSheet, $ionicPopup, $potService) {
     if(angular.isUndefined(parameters) || parameters === null) {
+        $scope.title = "상품추가";
         $scope.pot = {
             potName: '',
             potPrice: 0,
@@ -137,6 +138,7 @@ angular.module('kjtogy.controllers', [])
             potTag: ''
         };
     } else {
+        $scope.title = "상품수정";
         $scope.pot = parameters.pot;
 
         $scope.deletePot = function() {

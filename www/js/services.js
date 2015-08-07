@@ -223,9 +223,8 @@ angular.module('kjtogy.services', [])
 .factory('$kjModal', function($modalService) {
     return {
         showLogin: showLogin,
-        addNewPot: addNewPot,
-        viewDetail: viewDetail,
-        modifyPot: modifyPot
+        addModPot: addModPot,
+        viewDetail: viewDetail
     };
 
     function showLogin() {
@@ -233,19 +232,19 @@ angular.module('kjtogy.services', [])
             backdropClickToClose: false,
             hardwareBackButtonClose: false
         };
-        return $modalService.show('templates/login.html', 'LoginCtrl', '', opts);
+        return $modalService.show('templates/modal/login.html', 'LoginCtrl', '', opts);
     }
 
-    function addNewPot(param) {
+    function addModPot(param) {
         if(param !== null) {
             param = {pot: param};
         }
 
-        return $modalService.show('templates/pot-addmod.html', 'PotAddModCtrl', param);
+        return $modalService.show('templates/modal/pot-addmod.html', 'PotAddModCtrl', param);
     }
 
     function viewDetail(index) {
-        return $modalService.show('templates/pot-detail.html', 'PotDetailCtrl', {index: index});
+        return $modalService.show('templates/modal/pot-detail.html', 'PotDetailCtrl', {index: index});
     }
 
 })
