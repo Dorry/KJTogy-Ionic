@@ -197,7 +197,11 @@ angular.module('kjtogy.controllers', [])
         });
 
         $scope.popover.hide();
-    }
+    };
+
+    $scope.$on('$destroy', function() {
+        $scope.popover.remove();
+    });
     // end ionic Popover config
 
     $scope.backImage = {'background-image':"url('http://placehold.it/150x150')"};
