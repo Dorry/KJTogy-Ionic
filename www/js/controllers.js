@@ -129,21 +129,28 @@ angular.module('kjtogy.controllers', [])
 })
 
 .controller('PotAddModCtrl', function($scope, parameters, $ionicPopover, $ionicActionSheet, $ionicPopup, $potService) {
-    $scope.potTypes = $potService.getPotTypes();
+    $scope.potTypes = angular.copy($potService.getPotTypes());
     $scope.potTypes.shift();
 
     if(angular.isUndefined(parameters.pot) || parameters.pot === null) {
         $scope.title = "상품추가";
         $scope.pot = {
             potName: '',
-            potType: $scope.potTypes[0],
+            potType: $scope.potTypes[0].value,
             potPrice: 0,
             potSize: '',
             potTag: ''
         };
+        $scope.pType = $scope.potTypes[0];
     } else {
         $scope.title = "상품수정";
         $scope.pot = parameters.pot;
+
+        angular.forEach($scope.potTypes, function(type) {
+            if(type.value === $scope.pot.potType) {
+                $scope.pType = type;
+            }
+        });
 
         $scope.deletePot = function() {
             $ionicPopup.confirm({
@@ -174,6 +181,7 @@ angular.module('kjtogy.controllers', [])
         };
     }
 
+    console.log($scope.pot.potType);
     // ionic Popover config
     $ionicPopover.fromTemplateUrl('templates/popover/pot-type.html', {
         scope: $scope
@@ -191,7 +199,7 @@ angular.module('kjtogy.controllers', [])
     $scope.closeType = function(value) {
         angular.forEach($scope.potTypes, function(type) {
             if(type.value === value) {
-                $scope.pot.potType = type;
+                $scope.pot.potType = type.value;
                 console.log($scope.pot.potType);
             }
         });
