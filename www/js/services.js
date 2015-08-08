@@ -110,6 +110,20 @@ angular.module('kjtogy.services', [])
                 });
             
             return deferred.promise;
+        },
+
+        getImage : function(id, size) {
+            var deferred = $q.defer();
+
+            $http.get(SERVER_REST_URL + '/images/' + id + '/' + size)
+                .success(function(data) {
+                    deferred.resolve(data);
+                })
+                .error(function(error) {
+                    deferred.reject(error);
+                });
+
+            return deferred.promise;
         }
     };
 })
@@ -309,17 +323,26 @@ angular.module('kjtogy.services', [])
    };
 })
 
-.filter('potype', function() {
-    return function(pots, type) {
-        if(type == '')
-            return pots;
+.filter('potype', function($potService) {
+    return function(type) {
+        var out = "";
 
-        var out = [];
-        angular.forEach(pots, function(pot) {
-            if(pot.potType === type)
-                out.push(pot);
+        angular.forEach($potService.getTypes(), function(pType) {
+            if(pType.value === type)
+                out = pType.name;
         });
 
         return out;
+    };
+})
+
+.filter('posize', function() {
+    return function(size) {
+        var sizes = size.split("x");
+
+        if(sizes.length < 3)
+            return "지름: " + sizes[0] + ", 높이: " + sizes[1];
+        else
+            return "가로: " + sizes[0] + ", 세로: " + sizes[1] + ", 높이: " + sizes[2];
     };
 });

@@ -8,7 +8,23 @@
             <button class="button button-icon icon ion-edit icon-size-md" ng-click="modify(pot)"></button>
         </div>
     </ion-header-bar>
-    <ion-content padding="true">
-        {{pot.potSize}} / {{pot.potPrice | won}}
+    <ion-content has-bouncing="true">
+        <ion-list class="list">
+            <ion-item class="item-image">
+                <img ng-src="{{image}}">
+            </ion-item>
+            <ion-item>
+                <h3>상품타입</h3>
+                <p>{{pot.potType | potype}}</p>
+            </ion-item>
+            <ion-item>
+                <h3>상품가격</h3>
+                <p>{{pot.potPrice | won}}</p>
+            </ion-item>
+            <ion-item>
+                <h3>상품크기</h3>
+                <p>{{pot.potSize | posize}}</p>
+            </ion-item>
+        </ion-list>
     </ion-content>
 </ion-modal-view>

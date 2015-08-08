@@ -116,19 +116,40 @@ angular.module('kjtogy.controllers', [])
     };
 })
 
-.controller('PotDetailCtrl', function($scope, parameters, $potService, $kjModal) {
+.controller('PotDetailCtrl', function($scope, parameters, $ionicPlatform, $potService, $kjModal) {
+    var modal_close = $ionicPlatform.registerBackButtonAction(function() {
+        $scope.closeModal();
+        modal_close();
+    }, 202);
+
     $scope.pot = $potService.getPotById(parameters.id);
+
+    $potService.getImage($scope.pot.pId, 'm').then(
+        function(data) {
+            if(data.image == false)
+                $scope.image = "http://placehold.it/360x640";
+            else
+                $scope.image = "data:image/jpeg;base64," + data.image;
+        },
+        function(err) {
+            console.error(err);
+        });
 
     $scope.modify = function(pot) {
         $kjModal.addModPot(pot).then(function(result) {
             if(angular.isDefined(result) || result != null) {
-                console.log("Detaile view's result is " + result);
+                console.log("Detail view's result is " + result);
             }
         });
     };
 })
 
-.controller('PotAddModCtrl', function($scope, parameters, $ionicPopover, $ionicActionSheet, $ionicPopup, $potService, $kjCamera, $kjModal) {
+.controller('PotAddModCtrl', function($scope, parameters, $ionicPlatform, $ionicPopover, $ionicActionSheet, $ionicPopup, $potService, $kjCamera, $kjModal) {
+    var modal_close = $ionicPlatform.registerBackButtonAction(function() {
+        $scope.closeModal();
+        modal_close();
+    }, 203);
+
     $scope.potTypes = angular.copy($potService.getPotTypes());
     $scope.potTypes.shift();
 
@@ -205,7 +226,6 @@ angular.module('kjtogy.controllers', [])
             if(type.value === value) {
                 $scope.pot.potType = type.value;
                 $scope.pType = type;
-                //console.log($scope.pot.potType);
             }
         });
 
@@ -276,10 +296,18 @@ angular.module('kjtogy.controllers', [])
     };
 })
 
-.controller('PotPreviewCtrl', function($scope, parameters) {
-    //$scope.data = parameters.data;
-    //console.info(parameters.data);
+.controller('PotPreviewCtrl', function($scope, parameters, $ionicPlatform) {
+    var modal_close = $ionicPlatform.registerBackButtonAction(function() {
+        $scope.closeModal();
+        modal_close();
+    }, 204);
+
+    $scope.header_view = true;
+
     $scope.image = "data:image/jpeg;base64,"+$scope.data;
 
+    $scope.displayHeader = function() {
+        $scope.header_view = !$scope.header_view;
+    };
 });
 
