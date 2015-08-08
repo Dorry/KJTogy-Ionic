@@ -72,11 +72,12 @@ a.item-content {
 }
 
 .button-back-image {
-    width:150px;
-    height:150px;
-    color:#4caf50;
+    width: 150px;
+    height: 150px;
+    color: #4caf50;
     border-radius: 10px;
-    border:1px solid #bbb
+    border:1px solid #bbb;
+    background-size: contain
 }
 
 .searchInput {
@@ -113,16 +114,8 @@ a.item-content {
     background-color: rgba(0, 0, 0, 0.8);
 }
 
-.popover-item.activated, .transparent {
-}
-
 .top-header {
-    display: block;
-    position: fixed;
-    width: 100%;
     background-color: rgba(255, 255, 255, 0.3);
-    top: 0px;
-    left: 0px;
 }
 
 .top-header > button {

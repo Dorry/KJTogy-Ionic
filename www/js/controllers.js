@@ -204,7 +204,8 @@ angular.module('kjtogy.controllers', [])
         angular.forEach($scope.potTypes, function(type) {
             if(type.value === value) {
                 $scope.pot.potType = type.value;
-                console.log($scope.pot.potType);
+                $scope.pType = type;
+                //console.log($scope.pot.potType);
             }
         });
 
