@@ -128,10 +128,11 @@ angular.module('kjtogy.controllers', [])
     };
 })
 
-.controller('PotAddModCtrl', function($scope, parameters, $ionicPopover, $ionicActionSheet, $ionicPopup, $potService) {
+.controller('PotAddModCtrl', function($scope, parameters, $ionicPopover, $ionicActionSheet, $ionicPopup, $potService, $kjCamera, $kjModal) {
     $scope.potTypes = angular.copy($potService.getPotTypes());
     $scope.potTypes.shift();
 
+    // Initialize
     if(angular.isUndefined(parameters.pot) || parameters.pot === null) {
         $scope.title = "상품추가";
         $scope.pot = {
@@ -180,8 +181,8 @@ angular.module('kjtogy.controllers', [])
             });
         };
     }
+    // End Initialize
 
-    console.log($scope.pot.potType);
     // ionic Popover config
     $ionicPopover.fromTemplateUrl('templates/popover/pot-type.html', {
         scope: $scope
@@ -226,14 +227,30 @@ angular.module('kjtogy.controllers', [])
                 hideSheet();
             },
             buttonClicked: function(index) {
-                console.log(index + '번째 버튼 눌러졌습니다.');
+                $kjCamera.getPicture(index).then(function(imageData) {
+                    $kjModal.preview(imageData).then(function(result) {
+
+                    },
+                    function(err) {
+                        console.error(err);
+                    });
+                },
+                function(err) {
+                    console.error(err);
+                });
             }
         });
     };
 
     $scope.done = function(pot) {
-        if(angular.isUndefined(pot)) {
-            alert('빈란은 없어야 됩니다.');
+        if(angular.isUndefined(pot.potName)) {
+            alert('상품명을 적어주세요.');
+            angular.element("input[name='name']").focus();
+            return;
+        }
+        else if(angular.isUndefined(pot.potPrice) || pot.potPrice == 0) {
+            alert('상품가격을 적어주세요.');
+            angular.element("input[name='price']").focus();
             return;
         }
 
@@ -253,5 +270,12 @@ angular.module('kjtogy.controllers', [])
             console.error(error);
         });
     };
+})
+
+.controller('PotPreviewCtrl', function($scope, parameters) {
+    $scope.data = parameters.data;
+    console.info(parameters.data);
+    //$scope.image = $scope.data;
+
 });
 

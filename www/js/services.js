@@ -224,7 +224,8 @@ angular.module('kjtogy.services', [])
     return {
         showLogin: showLogin,
         addModPot: addModPot,
-        viewDetail: viewDetail
+        viewDetail: viewDetail,
+        preview: preview
     };
 
     function showLogin() {
@@ -247,6 +248,55 @@ angular.module('kjtogy.services', [])
         return $modalService.show('templates/modal/pot-detail.html', 'PotDetailCtrl', {id: id});
     }
 
+    function preview(data) {
+        return $modalService.show('templates/modal/pot-preview.html', 'PotPreviewCtrl', {data: data});
+    }
+})
+
+.factory('$kjCamera', function($cordovaCamera, $q) {
+    return {
+        getPicture: getPicture
+    };
+
+    function getPicture(type) {
+        var deferred = $q.defer();
+        var sourceType;
+
+        switch(type) {
+            case 0:
+                sourceType = Camera.PictureSourceType.CAMERA;
+                break;
+
+            case 1:
+                sourceType = Camera.PictureSourceType.PHOTOLIBRARY;
+                break;
+
+            default:
+                sourceType = Camera.PictureSourceType.CAMERA;
+                break;
+        }
+
+        var options = {
+            quality: 100,
+            targetWidth: 1080,
+            targetHeight: 1920,
+            destinationType: Camera.DestinationType.DATA_URL,
+            sourceType: sourceType,
+            allowEdit: true,
+            encodingType: Camera.EncodingType.JPEG,
+            popoverOptions: CameraPopoverOptions,
+            saveToPhotoAlbum: false
+        };
+
+        $cordovaCamera.getPicture(options).then(function(imageData) {
+            deferred.resolve(imageData);
+        },
+        function(err) {
+            deferred.reject(err);
+        });
+
+        return deferred.promise;
+    }
 })
 
 .filter('won', function($filter) {

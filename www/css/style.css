@@ -99,6 +99,26 @@ a.item-content {
     padding:14px !important
 }
 .popover-item.activated {
-    background-color: rgba(0,0,0,0.2) !important;
+    background-color: rgba(0, 0, 0, 0.2) !important;
+    color: #fff !important
+}
+
+.full-size {
+    width: 100%;
+    height: 100%
+}
+.transparent {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.popover-item.activated, .transparent {
+}
+
+.top-header {
+    display: block;
+    position: fixed;
+    width: 100%;
+    top: 0px;
+    left: 0px;
     color: #fff !important
 }
