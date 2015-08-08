@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<widget id="com.ionicframework.kjtogyapp291104" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-  <name>kjtogyApp</name>
+<widget id="com.zia.kjtogy" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+  <name>경진토기</name>
   <description>
-        An Ionic Framework and Cordova project.
+        An KJTogy Android App project.
     </description>
-  <author email="hi@ionicframework" href="http://ionicframework.com/">
-      Ionic Framework Team
+  <author email="dorry457@nate.com" href="http://songsul.iptime.org/">
+      Zia
     </author>
   <content src="index.html"/>
   <access origin="*"/>

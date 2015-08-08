@@ -3,7 +3,7 @@ var doqfhrmdlskey = {u_name:'dorry457',pass:'d4520646'};
 
 angular.module('kjtogy', ['ionic', 'kjtogy.controllers', 'kjtogy.services', 'ngCordova'])
 
-.run(function($ionicPlatform, $cordovaStatusbar) {
+.run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -12,7 +12,8 @@ angular.module('kjtogy', ['ionic', 'kjtogy.controllers', 'kjtogy.services', 'ngC
     }
     if (window.StatusBar) {
       // org.apache.cordova.statusbar required
-      $cordovaStatusbar.styleHex('#388E3C');
+      //StatusBar.styleDefault();
+        StatusBar.backgroundColorByHexString('#388e3c');
     }
 
     window.localStorage.setItem(Secure_Key, JSON.stringify(doqfhrmdlskey));

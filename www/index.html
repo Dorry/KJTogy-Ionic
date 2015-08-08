@@ -3,6 +3,8 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+        <!--<meta http-equiv="Content-Security-Policy" content="default-src *; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'">//-->
+
         <title></title>
 
         <link rel="stylesheet" href="css/ionic.app.css">
@@ -27,7 +29,7 @@
         </ion-header-bar>
         <ion-header-bar class="has-header bar-subheader bar-balanced" ng-show="pots.length">
             <div class="list">
-                <label class="item item-input" style="width:240px;border-radius:5px">
+                <label class="item item-input" style="width:245px;border-radius:5px">
                     <i class="icon ion-search placeholder-icon"></i>
                     <input type="text" placeholder="상품명을 입력해주세요" ng-model="searchPot" class="searchInput">
                 </label>
@@ -36,9 +38,6 @@
                     <i id="dropdown" class="icon ion-android-arrow-dropdown"></i>
                 </div>
             </div>
-<!--                <md-select ng-model="pType">
-                    <md-option ng-repeat="type in potTypes" ng-value="type.value">{{type.name}}</md-option>
-                </md-select>//-->
         </ion-header-bar>
         <ion-content class="has-subheader">
             <ion-list ng-if="pots.length">

@@ -44,20 +44,20 @@ angular.module('kjtogy.controllers', [])
     };
 })
 
-.controller('PotDashCtrl', function($scope, $ionicPlatform, $ionicPopover, $potService, $kjModal) {
+.controller('PotDashCtrl', function($scope, $ionicPlatform, $ionicPopover, $ionicPopup, $potService, $kjModal) {
     $ionicPlatform.ready(function() {
         $scope.pots = [];
 
-        $scope.isLogin = true;//false;
+        $scope.isLogin = false;
 
-        //if(!$scope.isLogin) {
-        //    $kjModal.showLogin().then(function(result) {
-        //        $scope.isLogin = result;
+        if(!$scope.isLogin) {
+            $kjModal.showLogin().then(function(result) {
+                $scope.isLogin = result;
                 $scope.pots = $potService.getPotsAll();
                 $scope.potTypes = $potService.getPotTypes();
                 $scope.pType = $scope.potTypes[0];
-        //    });
-        //}
+            });
+        }
 
         var app_exit = $ionicPlatform.registerBackButtonAction(function() {
             $ionicPopup.confirm({
@@ -183,6 +183,9 @@ angular.module('kjtogy.controllers', [])
     }
     // End Initialize
 
+    $scope.delBtnHide = angular.isUndefined($scope.pot.pId);
+    console.log($scope.delBtnHide);
+
     // ionic Popover config
     $ionicPopover.fromTemplateUrl('templates/popover/pot-type.html', {
         scope: $scope
@@ -245,12 +248,12 @@ angular.module('kjtogy.controllers', [])
     $scope.done = function(pot) {
         if(angular.isUndefined(pot.potName)) {
             alert('상품명을 적어주세요.');
-            angular.element("input[name='name']").focus();
+            document.getElementById('potName').focus();
             return;
         }
         else if(angular.isUndefined(pot.potPrice) || pot.potPrice == 0) {
             alert('상품가격을 적어주세요.');
-            angular.element("input[name='price']").focus();
+            document.getElementById('potPrice').focus();
             return;
         }
 

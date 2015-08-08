@@ -5,7 +5,7 @@
         </div>
         <h1 class="title"></h1>
         <div class="buttons">
-            <button class="button button-icon icon ion-trash-b icon-size-md" ng-click="deletePot()"></button>
+            <button ng-hide="delBtnHide" class="button button-icon icon ion-trash-b icon-size-md" ng-click="deletePot()"></button>
             <button class="button button-icon icon ion-android-done icon-size-md" ng-click="done(pot)"></button>
         </div>
     </ion-header-bar>
@@ -16,7 +16,7 @@
             </ion-item>
             <label class="item item-input">
                 <span class="input-label">상품명</span>
-                <input type="text" name="name" ng-model="pot.potName" required="required">
+                <input type="text" id="potName" ng-model="pot.potName" required="required">
             </label>
             <ion-item class="item-input">
                 <span class="input-label">상품타입</span>
@@ -27,15 +27,15 @@
             </ion-item>
             <label class="item item-input">
                 <span class="input-label">상품가격</span>
-                <input type="number" name="price" ng-model="pot.potPrice" required="required">
+                <input type="number" id="potPrice" ng-model="pot.potPrice" required="required">
             </label>
             <label class="item item-input">
                 <span class="input-label">상품크기</span>
-                <input type="text" name="size" ng-model="pot.potSize">
+                <input type="text" id="potSize" ng-model="pot.potSize">
             </label>
             <label class="item item-input">
                 <span class="input-label">TAG</span>
-                <input type="text" name="tag" ng-model="pot.potTag">
+                <input type="text" id="potTag" ng-model="pot.potTag">
             </label>
         </ion-list>
     </ion-content>
