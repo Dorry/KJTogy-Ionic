@@ -327,7 +327,7 @@ angular.module('kjtogy.services', [])
     return function(type) {
         var out = "";
 
-        angular.forEach($potService.getTypes(), function(pType) {
+        angular.forEach($potService.getPotTypes(), function(pType) {
             if(pType.value === type)
                 out = pType.name;
         });
@@ -344,5 +344,19 @@ angular.module('kjtogy.services', [])
             return "지름: " + sizes[0] + ", 높이: " + sizes[1];
         else
             return "가로: " + sizes[0] + ", 세로: " + sizes[1] + ", 높이: " + sizes[2];
+    };
+})
+
+.filter('typelist', function() {
+    return function(pots, type) {
+        if(type == '')  return pots;
+
+        var out = [];
+        angular.forEach(pots, function(pot) {
+            if(pot.potType == type)
+                out.push(pot);
+        });
+
+        return out;
     };
 });
