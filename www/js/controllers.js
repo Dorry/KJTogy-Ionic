@@ -273,9 +273,9 @@ angular.module('kjtogy.controllers', [])
 })
 
 .controller('PotPreviewCtrl', function($scope, parameters) {
-    $scope.data = parameters.data;
-    console.info(parameters.data);
-    //$scope.image = $scope.data;
+    //$scope.data = parameters.data;
+    //console.info(parameters.data);
+    $scope.image = "data:image/jpeg;base64,"+$scope.data;
 
 });
 

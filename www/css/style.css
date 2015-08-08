@@ -118,7 +118,11 @@ a.item-content {
     display: block;
     position: fixed;
     width: 100%;
+    background-color: rgba(255, 255, 255, 0.3);
     top: 0px;
     left: 0px;
+}
+
+.top-header > button {
     color: #fff !important
 }
