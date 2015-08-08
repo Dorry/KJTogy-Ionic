@@ -304,7 +304,7 @@ angular.module('kjtogy.controllers', [])
 
     $scope.header_view = true;
 
-    $scope.image = "data:image/jpg;base64,"+$scope.data;
+    $scope.image = "data:image/jpg;base64,"+$parameters.data;
 
     $scope.displayHeader = function() {
         $scope.header_view = !$scope.header_view;
