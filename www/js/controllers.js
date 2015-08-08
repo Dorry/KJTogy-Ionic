@@ -129,7 +129,7 @@ angular.module('kjtogy.controllers', [])
             if(data.image == false)
                 $scope.image = "http://placehold.it/360x640";
             else
-                $scope.image = "data:image/jpeg;base64," + data.image;
+                $scope.image = "data:image/jpg;base64," + data.image;
         },
         function(err) {
             console.error(err);
