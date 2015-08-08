@@ -296,7 +296,7 @@ angular.module('kjtogy.services', [])
             targetHeight: 1920,
             destinationType: Camera.DestinationType.DATA_URL,
             sourceType: sourceType,
-            allowEdit: true,
+            allowEdit: false,
             encodingType: Camera.EncodingType.JPEG,
             popoverOptions: CameraPopoverOptions,
             saveToPhotoAlbum: false
