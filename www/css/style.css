@@ -110,6 +110,7 @@ a.item-content {
     width: 100%;
     height: 100%
 }
+
 .transparent {
     background-color: rgba(0, 0, 0, 0.8);
 }
@@ -117,11 +118,13 @@ a.item-content {
 .top-header {
     background-color: rgba(255, 255, 255, 0.3);
 }
-
 .top-header > button {
     color: #fff !important
 }
 
 h3 {
     color: #bcbcbc
+}
+.detail-info {
+    font-size: 20px
 }

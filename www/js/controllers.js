@@ -122,6 +122,10 @@ angular.module('kjtogy.controllers', [])
         modal_close();
     }, 202);
 
+    $scope.$on('$destroy', function() {
+        modal_close();
+    });
+
     $scope.pot = $potService.getPotById(parameters.id);
 
     $potService.getImage($scope.pot.pId, 'm').then(
@@ -136,7 +140,7 @@ angular.module('kjtogy.controllers', [])
         });
 
     $scope.modify = function(pot) {
-        $kjModal.addModPot(pot).then(function(result) {
+        $kjModal.addModPot(angular.copy(pot)).then(function(result) {
             if(angular.isDefined(result) || result != null) {
                 console.log("Detail view's result is " + result);
             }
@@ -233,6 +237,7 @@ angular.module('kjtogy.controllers', [])
     };
 
     $scope.$on('$destroy', function() {
+        modal_close();
         $scope.popover.remove();
     });
     // end ionic Popover config
@@ -309,5 +314,9 @@ angular.module('kjtogy.controllers', [])
     $scope.displayHeader = function() {
         $scope.header_view = !$scope.header_view;
     };
+
+    $scope.$on('$destroy', function() {
+        modal_close();
+    });
 });
 
