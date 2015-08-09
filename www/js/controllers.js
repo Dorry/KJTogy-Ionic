@@ -168,7 +168,8 @@ angular.module('kjtogy.controllers', [])
             potTag: ''
         };
         $scope.pType = $scope.potTypes[0];
-    } else {
+    }
+    else {
         $scope.title = "상품수정";
         $scope.pot = parameters.pot;
 
@@ -272,15 +273,15 @@ angular.module('kjtogy.controllers', [])
     };
 
     $scope.done = function(pot) {
-        if(angular.isUndefined(pot.potName)) {
-            alert('상품명을 적어주세요.');
-            document.getElementById('potName').focus();
-            return;
-        }
-        else if(angular.isUndefined(pot.potPrice) || pot.potPrice == 0) {
-            alert('상품가격을 적어주세요.');
-            document.getElementById('potPrice').focus();
-            return;
+        if((angular.isUndefined(pot.potName) || pot.potName == '') ||
+          (angular.isUndefined(pot.potPrice) || pot.potPrice == 0)) {
+            $ionicPopup.alert({
+                title: '필수 항목 미기재',
+                template: '필수 입력해야할 항목을 입력하세요!',
+                okText: '확 인',
+                okType: 'button-assertive'
+            });
+            return false;
         }
 
         var params = {
