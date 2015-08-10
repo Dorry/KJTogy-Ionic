@@ -296,6 +296,7 @@ angular.module('kjtogy.services', [])
             targetHeight: 1920,
             destinationType: Camera.DestinationType.DATA_URL,
             sourceType: sourceType,
+            correctOrientation: true,
             allowEdit: false,
             encodingType: Camera.EncodingType.JPEG,
             popoverOptions: CameraPopoverOptions,
@@ -341,7 +342,7 @@ angular.module('kjtogy.services', [])
         var sizes = size.split("x");
 
         if(sizes.length < 3)
-            return "지름: " + sizes[0] + ", 높이: " + sizes[1];
+            return "너비: " + sizes[0] + ", 높이: " + sizes[1];
         else
             return "가로: " + sizes[0] + ", 세로: " + sizes[1] + ", 높이: " + sizes[2];
     };

@@ -118,13 +118,18 @@ angular.module('kjtogy.controllers', [])
 
 .controller('PotDetailCtrl', function($scope, parameters, $ionicPlatform, $potService, $kjModal) {
     var modal_close = $ionicPlatform.registerBackButtonAction(function() {
-        $scope.closeModal();
         modal_close();
+        $scope.closeModal();
     }, 202);
 
     $scope.$on('$destroy', function() {
         modal_close();
     });
+
+    $scope.close = function() {
+        modal_close();
+        $scope.closeModal();
+    };
 
     $scope.pot = $potService.getPotById(parameters.id);
 
@@ -133,7 +138,7 @@ angular.module('kjtogy.controllers', [])
             if(data.image == false)
                 $scope.image = "http://placehold.it/360x640";
             else
-                $scope.image = "data:image/jpg;base64," + data.image;
+                $scope.image = "data:image/jpeg;base64," + data.image;
         },
         function(err) {
             console.error(err);
@@ -150,8 +155,8 @@ angular.module('kjtogy.controllers', [])
 
 .controller('PotAddModCtrl', function($scope, parameters, $ionicPlatform, $ionicPopover, $ionicActionSheet, $ionicPopup, $potService, $kjCamera, $kjModal) {
     var modal_close = $ionicPlatform.registerBackButtonAction(function() {
-        $scope.closeModal();
         modal_close();
+        $scope.closeModal();
     }, 203);
 
     $scope.potTypes = angular.copy($potService.getPotTypes());
@@ -243,6 +248,11 @@ angular.module('kjtogy.controllers', [])
     });
     // end ionic Popover config
 
+    $scope.close = function() {
+        modal_close();
+        $scope.closeModal();
+    };
+
     $scope.backImage = {'background-image':"url('http://placehold.it/150x150')"};
 
     $scope.changeImage = function() {
@@ -304,16 +314,21 @@ angular.module('kjtogy.controllers', [])
 
 .controller('PotPreviewCtrl', function($scope, parameters, $ionicPlatform) {
     var modal_close = $ionicPlatform.registerBackButtonAction(function() {
-        $scope.closeModal();
         modal_close();
+        $scope.closeModal();
     }, 204);
 
     $scope.header_view = true;
 
-    $scope.image = "data:image/jpg;base64,"+parameters.data;
+    $scope.image = "data:image/jpeg;base64,"+parameters.data;
 
     $scope.displayHeader = function() {
         $scope.header_view = !$scope.header_view;
+    };
+
+    $scope.close = function() {
+        modal_close();
+        $scope.closeModal();
     };
 
     $scope.$on('$destroy', function() {
