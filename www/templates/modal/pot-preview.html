@@ -1,11 +1,8 @@
 <ion-modal-view class="transparent full-size">
-    <ion-header-bar align-title="left" class="top-header" ng-show="header_view">
-        <h1 class="title"></h1>
-        <div class="buttons">
+    <ion-content>
+        <div class="top-header" ng-show="header_view">
             <button class="button-icon icon ion-android-close icon-size-md" ng-click="close()"></button>
         </div>
-    </ion-header-bar>
-    <ion-content has-header="false">
         <img ng-src="{{image}}" width="100%" ng-click="displayHeader()">
     </ion-content>
 </ion-modal-view>

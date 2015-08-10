@@ -267,6 +267,7 @@ angular.module('kjtogy.controllers', [])
                 hideSheet();
             },
             buttonClicked: function(index) {
+                hideSheet();
                 $kjCamera.getPicture(index).then(function(imageData) {
                     $kjModal.preview(imageData).then(function(result) {
 
