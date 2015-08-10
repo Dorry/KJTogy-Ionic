@@ -44,7 +44,7 @@ angular.module('kjtogy.controllers', [])
     };
 })
 
-.controller('PotDashCtrl', function($scope, $ionicPlatform, $ionicPopover, $ionicPopup, $potService, $kjModal) {
+.controller('PotDashCtrl', function($scope, $ionicPlatform, $ionicPopover, $ionicPopup, $ionicLoading, $potService, $kjModal) {
     $ionicPlatform.ready(function() {
         $scope.pots = [];
 
@@ -116,7 +116,11 @@ angular.module('kjtogy.controllers', [])
     };
 })
 
-.controller('PotDetailCtrl', function($scope, parameters, $ionicPlatform, $potService, $kjModal) {
+.controller('PotDetailCtrl', function($scope, parameters, $ionicPlatform, $ionicLoading, $potService, $kjModal) {
+    $ionicLoading.show({
+        template:'<ion-spinner icon="android"></ion-spinner> Loading Data...'
+    });
+
     var modal_close = $ionicPlatform.registerBackButtonAction(function() {
         modal_close();
         $scope.closeModal();
@@ -139,8 +143,11 @@ angular.module('kjtogy.controllers', [])
                 $scope.image = "http://placehold.it/360x640";
             else
                 $scope.image = "data:image/jpeg;base64," + data.image;
+
+            $ionicLoading.hide();
         },
         function(err) {
+            $ionicLoading.hide();
             console.error(err);
         });
 
@@ -153,7 +160,7 @@ angular.module('kjtogy.controllers', [])
     };
 })
 
-.controller('PotAddModCtrl', function($scope, parameters, $ionicPlatform, $ionicPopover, $ionicActionSheet, $ionicPopup, $potService, $kjCamera, $kjModal) {
+.controller('PotAddModCtrl', function($scope, parameters, $ionicPlatform, $ionicPopover, $ionicActionSheet, $ionicPopup, $ionicLoading, $potService, $kjCamera, $kjModal) {
     var modal_close = $ionicPlatform.registerBackButtonAction(function() {
         modal_close();
         $scope.closeModal();
@@ -175,6 +182,10 @@ angular.module('kjtogy.controllers', [])
         $scope.pType = $scope.potTypes[0];
     }
     else {
+        $ionicLoading.show({
+            template:'<ion-spinner icon="android"></ion-spinner> Loading Data...'
+        });
+
         $scope.title = "상품수정";
         $scope.pot = parameters.pot;
 
@@ -215,7 +226,6 @@ angular.module('kjtogy.controllers', [])
     // End Initialize
 
     $scope.delBtnHide = angular.isUndefined($scope.pot.pId);
-    console.log($scope.delBtnHide);
 
     // ionic Popover config
     $ionicPopover.fromTemplateUrl('templates/popover/pot-type.html', {
@@ -253,7 +263,13 @@ angular.module('kjtogy.controllers', [])
         $scope.closeModal();
     };
 
-    $scope.backImage = {'background-image':"url('http://placehold.it/150x150')"};
+    $potService.getImage().success(
+        function(result) {
+            $scope.backImage = {'background-image':"url('" + result + "')"};
+
+            $ionicLoading.hide();
+        }
+    });
 
     $scope.changeImage = function() {
         var hideSheet = $ionicActionSheet.show({

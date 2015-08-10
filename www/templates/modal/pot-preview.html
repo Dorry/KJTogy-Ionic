@@ -3,6 +3,8 @@
         <div class="top-header" ng-show="header_view">
             <button class="button-icon icon ion-android-close icon-size-md" ng-click="close()"></button>
         </div>
-        <img ng-src="{{image}}" width="100%" ng-click="displayHeader()">
+        <ion-scroll direction="xy" zooming="true" scrollbar-x="false" scrollbar-y="false" min-zoom="1" max-zoom="3" has-bouncing="true">
+            <img ng-src="{{image}}" width="100%" ng-click="displayHeader()">
+        </ion-scroll>
     </ion-content>
 </ion-modal-view>

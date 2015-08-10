@@ -53,7 +53,7 @@ angular.module('kjtogy.services', [])
             $http.get(SERVER_REST_URL + '/pots')
                 .success(function(data) {
                     potItems = data;
-                    deferred.resolve(data);
+                    deferred.resolve(potItems);
                 })
                 .error(function(error) {
                     deferred.reject(error);
@@ -115,13 +115,18 @@ angular.module('kjtogy.services', [])
         getImage : function(id, size) {
             var deferred = $q.defer();
 
-            $http.get(SERVER_REST_URL + '/images/' + id + '/' + size)
+            if(id == null || angular.isUndefined(id) || id == '') {
+                deferred.resolve('http://placehold.it/150x150');
+            }
+            else {
+                $http.get(SERVER_REST_URL + '/images/' + id + '/' + size)
                 .success(function(data) {
                     deferred.resolve(data);
                 })
                 .error(function(error) {
                     deferred.reject(error);
                 });
+            }
 
             return deferred.promise;
         }
