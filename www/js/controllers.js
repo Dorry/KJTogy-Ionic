@@ -8,13 +8,13 @@ angular.module('kjtogy.controllers', [])
             cancelText : '취소',
             okText : '종료',
             okType : 'button-assertive'
-        }).then(function(res) {
-            if(res) {
+        }).then(function(result) {
+            if(result) {
                 navigator.app.exitApp();
                 app_exit();
             }
-        }, function(err) {
-            console.error("err " + err);
+        }, function(error) {
+            console.error("err " + error);
         });
 
     }, 201);
@@ -84,8 +84,8 @@ angular.module('kjtogy.controllers', [])
     }).then(function(popover) {
         $scope.popover = popover;
     },
-    function(err) {
-        console.error(err);
+    function(error) {
+        console.error(error);
     });
 
     $scope.showType = function($event) {
@@ -116,7 +116,7 @@ angular.module('kjtogy.controllers', [])
     };
 })
 
-.controller('PotDetailCtrl', function($scope, parameters, $ionicPlatform, $ionicLoading, $potService, $kjModal) {
+.controller('PotDetailCtrl', function($scope, parameters, $ionicPlatform, $ionicLoading, $ionicPopup, $potService, $kjModal) {
     $ionicLoading.show({
         template:'<ion-spinner icon="android"></ion-spinner> Loading Data...'
     });
@@ -139,23 +139,20 @@ angular.module('kjtogy.controllers', [])
 
     $potService.getImage($scope.pot.pId, 'm').then(
         function(data) {
-            if(data.image == false)
+            if(data === '')
                 $scope.image = "http://placehold.it/360x640";
             else
-                $scope.image = "data:image/jpeg;base64," + data.image;
+                $scope.image = "data:image/jpeg;base64," + data;
 
             $ionicLoading.hide();
         },
-        function(err) {
+        function(error) {
             $ionicLoading.hide();
-            console.error(err);
+            console.error(error);
         });
 
     $scope.modify = function(pot) {
         $kjModal.addModPot(angular.copy(pot)).then(function(result) {
-            if(angular.isDefined(result) || result != null) {
-                console.log("Detail view's result is " + result);
-            }
         });
     };
 })
@@ -169,73 +166,16 @@ angular.module('kjtogy.controllers', [])
     $scope.potTypes = angular.copy($potService.getPotTypes());
     $scope.potTypes.shift();
 
-    // Initialize
-    if(angular.isUndefined(parameters.pot) || parameters.pot === null) {
-        $scope.title = "상품추가";
-        $scope.pot = {
-            potName: '',
-            potType: $scope.potTypes[0].value,
-            potPrice: 0,
-            potSize: '',
-            potTag: ''
-        };
-        $scope.pType = $scope.potTypes[0];
-    }
-    else {
-        $ionicLoading.show({
-            template:'<ion-spinner icon="android"></ion-spinner> Loading Data...'
-        });
-
-        $scope.title = "상품수정";
-        $scope.pot = parameters.pot;
-
-        angular.forEach($scope.potTypes, function(type) {
-            if(type.value === $scope.pot.potType) {
-                $scope.pType = type;
-            }
-        });
-
-        $scope.deletePot = function() {
-            $ionicPopup.confirm({
-                title : $scope.pot.potName + ' 자료 삭제',
-                template : "정말 '" + $scope.pot.potName + "' 자료를 삭제하시겠습니까?",
-                cancelText : '취소',
-                okText : '삭제',
-                okType : 'button-assertive'
-            }).then(function(res) {
-                if(res) {
-                    console.log('삭제 버튼 눌렀다!!!');
-
-                    $potService.deletePot($scope.pot.potId)
-                    .then(function(result) {
-                        console.log(result);
-                        $scope.closeModal();
-                    },
-                    function(error) {
-                        console.error(error);
-                    });
-
-                } else {
-                    console.log('취소 버튼 눌렀다!!!');
-                }
-            }, function(err) {
-                console.error("err " + err);
-            });
-        };
-    }
-    // End Initialize
-
-    $scope.delBtnHide = angular.isUndefined($scope.pot.pId);
-
     // ionic Popover config
     $ionicPopover.fromTemplateUrl('templates/popover/pot-type.html', {
         scope: $scope
     }).then(function(popover) {
         $scope.popover = popover;
     },
-    function(err) {
-        console.error(err);
+    function(error) {
+        console.error(error);
     });
+    // End ionic Popover config
 
     $scope.showType = function($event) {
         $scope.popover.show($event);
@@ -263,14 +203,6 @@ angular.module('kjtogy.controllers', [])
         $scope.closeModal();
     };
 
-    $potService.getImage().success(
-        function(result) {
-            $scope.backImage = {'background-image':"url('" + result.data + "')"};
-
-            $ionicLoading.hide();
-        }
-    });
-
     $scope.changeImage = function() {
         var hideSheet = $ionicActionSheet.show({
             titleText: '사진 선택',
@@ -288,12 +220,18 @@ angular.module('kjtogy.controllers', [])
                     $kjModal.preview(imageData).then(function(result) {
 
                     },
-                    function(err) {
-                        console.error(err);
+                    function(error) {
+                        $ionicPopup.alert({
+                            title: 'Error',
+                            template: error,
+                            okText: '확 인',
+                            okType: 'button-assertive'
+                        });
+                        console.error(error);
                     });
                 },
-                function(err) {
-                    console.error(err);
+                function(error) {
+                    console.error(error);
                 });
             }
         });
@@ -320,26 +258,126 @@ angular.module('kjtogy.controllers', [])
             'potTag' : pot.potTag || ''
         };
 
-        if($scope.delBtnHide) {
+        if($scope.delBtnHide) { // 상품 추가시
             $potService.addNewPot(params)
             .then(function(result) {
                 console.log(result);
                 $scope.closeModal();
             },
             function(error) {
+                $ionicPopup.alert({
+                    title: 'Error',
+                    template: error,
+                    okText: '확 인',
+                    okType: 'button-assertive'
+                });
                 console.error(error);
             });
-        } else {
+        } else { // 상품 수정시
             $potService.updatePot($scope.pot.pId, params)
             .then(function(result) {
+
                 console.log(result);
                 $scope.closeModal();
             },
             function(error) {
+                $ionicPopup.alert({
+                    title: 'Error',
+                    template: error,
+                    okText: '확 인',
+                    okType: 'button-assertive'
+                });
                 console.error(error);
             });
         }
     };
+
+    // Initialize
+    if(angular.isUndefined(parameters.pot) || parameters.pot === null) {
+        $scope.title = "상품추가";
+        $scope.pot = {
+            potName: '',
+            potType: $scope.potTypes[0].value,
+            potPrice: 0,
+            potSize: '',
+            potImage: '',
+            potTag: ''
+        };
+        $scope.pType = $scope.potTypes[0];
+        $scope.delBtnHide = true;
+
+        $scope.backImage = {'background-image': "url('http://placehold.it/150x150')"};
+
+    } else {
+        $ionicLoading.show({
+            template:'<ion-spinner icon="android"></ion-spinner> Loading Data...'
+        });
+
+        $scope.title = "상품수정";
+        $scope.pot = parameters.pot;
+
+        $scope.delBtnHide = false;
+
+        angular.forEach($scope.potTypes, function(type) {
+            if(type.value === $scope.pot.potType) {
+                $scope.pType = type;
+            }
+        });
+
+        $potService.getImage($scope.pot.pId, 'm')
+        .then(function(data) {
+            if(data === '') {
+                $scope.backImage = {'background-image': "url('http://placehold.it/150x150')"};
+            } else {
+                $scope.backImage = {'background-image': "url('data:image/jpeg;base64,".data."')"};
+            }
+            $ionicLoading.hide();
+        },
+        function(error) {
+            $ionicPopup.alert({
+                title: 'Error',
+                template: error,
+                okText: '확 인',
+                okType: 'button-assertive'
+            });
+        });
+
+        $scope.deletePot = function() {
+            $ionicPopup.confirm({
+                title : $scope.pot.potName + ' 자료 삭제',
+                template : "정말 '" + $scope.pot.potName + "' 자료를 삭제하시겠습니까?",
+                cancelText : '취소',
+                okText : '삭제',
+                okType : 'button-assertive'
+            }).then(function(res) {
+                if(res) {
+                    console.log('삭제 버튼 눌렀다!!!');
+
+                    $potService.deletePot($scope.pot.potId)
+                    .then(function(result) {
+                        console.log(result);
+                        $scope.closeModal();
+                    },
+                    function(error) {
+                        $ionicPopup.alert({
+                            title: 'Error',
+                            template: error,
+                            okText: '확 인',
+                            okType: 'button-assertive'
+                        });
+                        console.error(error);
+                    });
+
+                } else {
+                    console.log('취소 버튼 눌렀다!!!');
+                }
+            },
+            function(error) {
+                console.error("error " + error);
+            });
+        };
+    }
+    // End Initialize
 })
 
 .controller('PotPreviewCtrl', function($scope, parameters, $ionicPlatform) {
