@@ -51,9 +51,14 @@ angular.module('kjtogy.services', [])
             var deferred = $q.defer();
             
             $http.get(SERVER_REST_URL + '/pots')
-                .success(function(data) {
-                    potItems = data;
-                    deferred.resolve(potItems);
+                .success(function(result) {
+                    var result = JSON.parse(result);
+                    if(result.result) {
+                        potItems = result.data;
+                        deferred.resolve(potItems);
+                    } else {
+                        deferred.reject(result.err_msg);
+                    }
                 })
                 .error(function(error) {
                     deferred.reject(error);
@@ -74,8 +79,13 @@ angular.module('kjtogy.services', [])
             var deferred = $q.defer();
             
             $http.post(SERVER_REST_URL + '/pots', params)
-                .success(function(data) {
-                    deferred.resolve(data);
+                .success(function(result) {
+                    var result = JSON.parse(result);
+                    if(result.result) {
+                        deferred.resolve(result.data);
+                    } else {
+                        deferred.reject(result.err_msg);
+                    }
                 })
                 .error(function(error) {
                     deferred.reject(error);
@@ -88,8 +98,13 @@ angular.module('kjtogy.services', [])
             var deferred = $q.defer();
             
             $http.put(SERVER_REST_URL + '/pots/' + id, params)
-                .success(function(data) {
-                    deferred.resolve(data);
+                .success(function(result) {
+                    var result = JSON.parse(result);
+                    if(result.result) {
+                        deferred.resolve(result.data);
+                    } else {
+                        deferred.reject(result.err_msg);
+                    }
                 })
                 .error(function(error) {
                     deferred.reject(error);
@@ -102,8 +117,10 @@ angular.module('kjtogy.services', [])
             var deferred = $q.defer();
             
             $http.delete(SERVER_REST_URL + '/pots/' + id)
-                .success(function(data) {
-                    deferred.resolve(data);
+                .success(function(result) {
+                    var result = JSON.parse(result);
+                    if(result.result)
+                    deferred.resolve(JSON.parse(data));
                 })
                 .error(function(error) {
                     deferred.reject(error);
@@ -116,12 +133,12 @@ angular.module('kjtogy.services', [])
             var deferred = $q.defer();
 
             if(id == null || angular.isUndefined(id) || id == '') {
-                deferred.resolve('http://placehold.it/150x150');
+                deferred.resolve({data:'http://placehold.it/150x150'});
             }
             else {
-                $http.get(SERVER_REST_URL + '/images/' + id + '/' + size)
+                $http.get(SERVER_REST_URL + '/pots/images/' + id + '/' + size)
                 .success(function(data) {
-                    deferred.resolve(data);
+                    deferred.resolve(JSON.parse(data));
                 })
                 .error(function(error) {
                     deferred.reject(error);

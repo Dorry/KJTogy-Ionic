@@ -265,7 +265,7 @@ angular.module('kjtogy.controllers', [])
 
     $potService.getImage().success(
         function(result) {
-            $scope.backImage = {'background-image':"url('" + result + "')"};
+            $scope.backImage = {'background-image':"url('" + result.data + "')"};
 
             $ionicLoading.hide();
         }
@@ -312,20 +312,33 @@ angular.module('kjtogy.controllers', [])
         }
 
         var params = {
-            'name' : pot.potName,
-            'size' : pot.potSize || '',
-            'price' : pot.potPrice,
-            'tag' : pot.potTag || ''
+            'potName' : pot.potName,
+            'potType' : pot.potType,
+            'potPrice' : pot.potPrice,
+            'potSize' : pot.potSize || '',
+            'potImage' : pot.potImage || '',
+            'potTag' : pot.potTag || ''
         };
 
-        $potService.addNewPot(params)
-        .then(function(result) {
-            console.log(result);
-            $scope.closeModal();
-        },
-        function(error) {
-            console.error(error);
-        });
+        if($scope.delBtnHide) {
+            $potService.addNewPot(params)
+            .then(function(result) {
+                console.log(result);
+                $scope.closeModal();
+            },
+            function(error) {
+                console.error(error);
+            });
+        } else {
+            $potService.updatePot($scope.pot.pId, params)
+            .then(function(result) {
+                console.log(result);
+                $scope.closeModal();
+            },
+            function(error) {
+                console.error(error);
+            });
+        }
     };
 })
 
