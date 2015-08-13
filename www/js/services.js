@@ -1,5 +1,5 @@
 angular.module('kjtogy.services', [])
-.constant('SERVER_REST_URL', 'http://songsul.iptime.org:1590/api')
+.constant('SERVER_REST_URL', 'http://songsul.iptime.org:8080/api')
 
 .factory('$potService', function($http, $q, SERVER_REST_URL) {
     var potItems = [
@@ -52,7 +52,7 @@ angular.module('kjtogy.services', [])
             
             $http.get(SERVER_REST_URL + '/pots')
                 .success(function(result) {
-                    var result = JSON.parse(result);
+                    //var result = JSON.parse(result);
                     if(result.result) {
                         potItems = result.data;
                         deferred.resolve(potItems);
@@ -80,7 +80,7 @@ angular.module('kjtogy.services', [])
             
             $http.post(SERVER_REST_URL + '/pots', params)
                 .success(function(result) {
-                    var result = JSON.parse(result);
+                    //var result = JSON.parse(result);
                     if(result.result) {
                         potItems.push(result.data);
                         deferred.resolve(result.result);
@@ -125,7 +125,7 @@ angular.module('kjtogy.services', [])
             
             $http.delete(SERVER_REST_URL + '/pots/' + id)
                 .success(function(result) {
-                    var result = JSON.parse(result);
+                    //var result = JSON.parse(result);
                     if(result.result) {
                         deferred.resolve(result.result);
                     } else {
@@ -142,13 +142,15 @@ angular.module('kjtogy.services', [])
         getImage : function(id, size) {
             var deferred = $q.defer();
 
-            if(id == null || angular.isUndefined(id) || id == '') {
-                deferred.resolve('http://placehold.it/150x150');
+            console.log('id : ' + id);
+            if(id === null || angular.isUndefined(id) || id === '') {
+                deferred.resolve('');
             }
             else {
                 $http.get(SERVER_REST_URL + '/pots/images/' + id + '/' + size)
                 .success(function(result) {
-                    var result = JSON.parse(result);
+                    console.log(result);
+                    //var result = JSON.parse(result);
                     if(result.result) {
                         deferred.resolve(result.data);
                     } else {

@@ -137,16 +137,18 @@ angular.module('kjtogy.controllers', [])
 
     $scope.pot = $potService.getPotById(parameters.id);
 
-    $potService.getImage($scope.pot.pId, 'm').then(
+    $potService.getImage($scope.pot.pId, 'mm').then(
         function(data) {
             if(data === '')
-                $scope.image = "http://placehold.it/360x640";
+                $scope.image = "http://placehold.it/360x360";
             else
                 $scope.image = "data:image/jpeg;base64," + data;
 
             $ionicLoading.hide();
         },
         function(error) {
+            $scope.image = "http://placehold.it/360x360";
+
             $ionicLoading.hide();
             console.error(error);
         });
@@ -329,11 +331,12 @@ angular.module('kjtogy.controllers', [])
             if(data === '') {
                 $scope.backImage = {'background-image': "url('http://placehold.it/150x150')"};
             } else {
-                $scope.backImage = {'background-image': "url('data:image/jpeg;base64,".data."')"};
+                $scope.backImage = {'background-image': "url(data:image/jpeg;base64," + data + ")"};
             }
             $ionicLoading.hide();
         },
         function(error) {
+            $ionicLoading.hide();
             $ionicPopup.alert({
                 title: 'Error',
                 template: error,
