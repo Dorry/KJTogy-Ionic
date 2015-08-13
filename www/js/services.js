@@ -77,7 +77,7 @@ angular.module('kjtogy.services', [])
 
         addNewPot : function(params) {
             var deferred = $q.defer();
-            
+            console.log(params);
             $http.post(SERVER_REST_URL + '/pots', params)
                 .success(function(result) {
                     //var result = JSON.parse(result);
