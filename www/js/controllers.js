@@ -160,7 +160,9 @@ angular.module('kjtogy.controllers', [])
 })
 
 .controller('PotAddModCtrl', function($scope, parameters, $ionicPlatform, $ionicPopover, $ionicActionSheet, $ionicPopup, $ionicLoading, $potService, $kjCamera, $kjModal) {
+    var pot_image_data;
     var modal_close = $ionicPlatform.registerBackButtonAction(function() {
+        delete pot_image_data;
         modal_close();
         $scope.closeModal();
     }, 203);
@@ -201,6 +203,7 @@ angular.module('kjtogy.controllers', [])
     // end ionic Popover config
 
     $scope.close = function() {
+        delete pot_image_data;
         modal_close();
         $scope.closeModal();
     };
@@ -219,6 +222,12 @@ angular.module('kjtogy.controllers', [])
             buttonClicked: function(index) {
                 hideSheet();
                 $kjCamera.getPicture(index).then(function(imageData) {
+                    pot_image_data = imageData;
+                    $scope.backImage = {
+                        'background-image': "url(data:image/jpeg;base64,"+imageData+")",
+                        'background-position' : "cover"
+                    };
+
                     $kjModal.preview(imageData).then(function(result) {
 
                     },
@@ -256,11 +265,14 @@ angular.module('kjtogy.controllers', [])
             'potType' : pot.potType,
             'potPrice' : pot.potPrice,
             'potSize' : pot.potSize || '',
-            'potImage' : pot.potImage || '',
+            'potImage' : pot_image_data || '',
             'potTag' : pot.potTag || ''
         };
 
         if($scope.delBtnHide) { // 상품 추가시
+            var d = new Date();
+            angular.extend(params, {'createdAt' : d.getFullYear() + "-" + (d.getMonth()+1) + "-" + d.getDate()});
+
             $potService.addNewPot(params)
             .then(function(result) {
                 console.log(result);

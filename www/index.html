@@ -42,7 +42,7 @@
         <ion-content class="has-subheader">
             <ion-list ng-if="pots.length">
                 <ion-item ng-repeat="p in pots | filter:searchPot | typelist:pType.value" class="item item-avatar-left item-icon-right light-height pot-list" ng-click="viewDetail(p.pId)" >
-                    <img ng-src="http://placehold.it/50x50">
+                    <img ng-src="p.potImage || 'http://placehold.it/40x40'">
                     <div class="merge">
                         <h2>{{p.potName}}</h2>
                         <p>{{p.potSize}}</p>

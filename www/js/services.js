@@ -39,131 +39,139 @@ angular.module('kjtogy.services', [])
         {name: '기타자재', value: 6}
     ];
 
-    return {
-        getPotTypes: function() {
-            return potTypes;
-        },
+    function getPotTypes() {
+        return potTypes;
+    }
 
-        getPotsAll : function(refresh) {
-            if(!refresh || typeof refresh == 'undefined' || refresh == null)
-                return potItems;
+    function getPotsAll() {
+        var deferred = $q.defer();
 
-            var deferred = $q.defer();
-            
-            $http.get(SERVER_REST_URL + '/pots')
-                .success(function(result) {
-                    //var result = JSON.parse(result);
-                    if(result.result) {
-                        potItems = result.data;
-                        deferred.resolve(potItems);
-                    } else {
-                        deferred.reject(result.err_msg);
-                    }
-                })
-                .error(function(error) {
-                    deferred.reject(error);
-                });
+        $http.get(SERVER_REST_URL + '/pots')
+            .success(function(result) {
+                if(result.result) {
+                    potItems = result.data;
+                    deferred.resolve(potItems);
+                } else {
+                    deferred.reject(result.err_msg);
+                }
+            })
+            .error(function(error) {
+                deferred.reject(error);
+            });
 
-            return deferred.promise;
-        },
+        return deferred.promise;
+    }
 
-        getPotById : function(id) {
-            for(var i=0; i<potItems.length; i++) {
-                if(potItems[i].pId === id)
-                    return potItems[i];
-            }
-            return false;
-        },
-
-        addNewPot : function(params) {
-            var deferred = $q.defer();
-            console.log(params);
-            $http.post(SERVER_REST_URL + '/pots', params)
-                .success(function(result) {
-                    //var result = JSON.parse(result);
-                    if(result.result) {
-                        potItems.push(result.data);
-                        deferred.resolve(result.result);
-                    } else {
-                        deferred.reject(result.err_msg);
-                    }
-                })
-                .error(function(error) {
-                    deferred.reject(error);
-                });
-            
-            return deferred.promise;
-        },
-
-        updatePot : function(id, params) {
-            var deferred = $q.defer();
-            
-            $http.put(SERVER_REST_URL + '/pots/' + id, params)
-                .success(function(result) {
-                    var result = JSON.parse(result);
-                    if(result.result) {
-                        for(var i=0, j=potItems.length; i<j; ++i) {
-                            if(potItems[i].pId === id) {
-                                angular.extend(potItems[i], result.data);
-                                break;
-                            }
-                        }
-                        deferred.resolve(result.result);
-                    } else {
-                        deferred.reject(result.err_msg);
-                    }
-                })
-                .error(function(error) {
-                    deferred.reject(error);
-                });
-            
-            return deferred.promise;
-        },
-
-        deletePot : function(id) {
-            var deferred = $q.defer();
-            
-            $http.delete(SERVER_REST_URL + '/pots/' + id)
-                .success(function(result) {
-                    //var result = JSON.parse(result);
-                    if(result.result) {
-                        deferred.resolve(result.result);
-                    } else {
-                        deferred.reject(result.err_msg);
-                    }
-                })
-                .error(function(error) {
-                    deferred.reject(error);
-                });
-            
-            return deferred.promise;
-        },
-
-        getImage : function(id, size) {
-            var deferred = $q.defer();
-
-            console.log('id : ' + id);
-            if(id === null || angular.isUndefined(id) || id === '') {
-                deferred.resolve('');
-            }
-            else {
-                $http.get(SERVER_REST_URL + '/pots/images/' + id + '/' + size)
-                .success(function(result) {
-                    console.log(result);
-                    //var result = JSON.parse(result);
-                    if(result.result) {
-                        deferred.resolve(result.data);
-                    } else {
-                        deferred.reject(result.err_msg);
-                    }
-                })
-                .error(function(error) {
-                    deferred.reject(error);
-                });
-            }
-
-            return deferred.promise;
+    function getPotById(id) {
+        for(var i=0; i<potItems.length; i++) {
+            if(potItems[i].pId === id)
+                return potItems[i];
         }
+        return false;
+    }
+
+    function addNewPot(params) {
+        var deferred = $q.defer();
+        console.log(params);
+        $http.post(SERVER_REST_URL + '/pots', params)
+            .success(function(result) {
+                if(result.result) {
+                    potItems.push(result.data);
+                    deferred.resolve(result.result);
+                } else {
+                    deferred.reject(result.err_msg);
+                }
+            })
+            .error(function(error) {
+                deferred.reject(error);
+            });
+
+        return deferred.promise;
+    }
+
+    function updatePot(id, params) {
+        var deferred = $q.defer();
+
+        $http.put(SERVER_REST_URL + '/pots/' + id, params)
+            .success(function(result) {
+                var result = JSON.parse(result);
+                if(result.result) {
+                    for(var i=0, j=potItems.length; i<j; ++i) {
+                        if(potItems[i].pId === id) {
+                            angular.extend(potItems[i], result.data);
+                            break;
+                        }
+                    }
+                    deferred.resolve(result.result);
+                } else {
+                    deferred.reject(result.err_msg);
+                }
+            })
+            .error(function(error) {
+                deferred.reject(error);
+            });
+
+        return deferred.promise;
+    }
+
+    function deletePot(id) {
+        var deferred = $q.defer();
+
+        $http.delete(SERVER_REST_URL + '/pots/' + id)
+            .success(function(result) {
+                if(result.result) {
+                    for(var i=0; i<potItems.length; i++) {
+                        if(potItems[i].pId === id) {
+                            potItems.splice(i, 1);
+                            break;
+                        }
+                    }
+
+                    deferred.resolve(result.result);
+                } else {
+                    deferred.reject(result.err_msg);
+                }
+            })
+            .error(function(error) {
+                deferred.reject(error);
+            });
+
+        return deferred.promise;
+    }
+
+    function getImage(id, size) {
+        var deferred = $q.defer();
+
+        console.log('id : ' + id);
+        if(id === null || angular.isUndefined(id) || id === '') {
+            deferred.resolve('');
+        }
+        else {
+            $http.get(SERVER_REST_URL + '/pots/images/' + id + '/' + size)
+            .success(function(result) {
+                console.log(result);
+                if(result.result) {
+                    deferred.resolve(result.data);
+                } else {
+                    deferred.reject(result.err_msg);
+                }
+            })
+            .error(function(error) {
+                deferred.reject(error);
+            });
+        }
+
+        return deferred.promise;
+    }
+
+    return {
+        getPotTypes: getPotTypes,
+        getPotsAll : getPotsAll,
+        getPotById : getPotById,
+        addNewPot : addNewPot,
+        updatePot : updatePot,
+        deletePot : deletePot,
+        getImage : getImage
     };
 })
 
