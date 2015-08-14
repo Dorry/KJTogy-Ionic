@@ -53,7 +53,19 @@ angular.module('kjtogy.controllers', [])
         if(!$scope.isLogin) {
             $kjModal.showLogin().then(function(result) {
                 $scope.isLogin = result;
-                $scope.pots = $potService.getPotsAll();
+                $potService.getPotsAll().then(
+                function(data) {
+                    $scope.pots = data;
+                },
+                function(error) {
+                    $ionicPopup.alert({
+                        title: 'Error',
+                        template: error,
+                        okText: '확 인',
+                        okType: 'button-assertive'
+                    });
+                    console.error(error);
+                });
                 $scope.potTypes = $potService.getPotTypes();
                 $scope.pType = $scope.potTypes[0];
             });
@@ -225,7 +237,8 @@ angular.module('kjtogy.controllers', [])
                     pot_image_data = imageData;
                     $scope.backImage = {
                         'background-image': "url(data:image/jpeg;base64,"+imageData+")",
-                        'background-size' : "cover"
+                        'background-size' : "cover",
+                        'background-position' : "center"
                     };
 
                     $kjModal.preview(imageData).then(function(result) {
