@@ -225,7 +225,7 @@ angular.module('kjtogy.controllers', [])
                     pot_image_data = imageData;
                     $scope.backImage = {
                         'background-image': "url(data:image/jpeg;base64,"+imageData+")",
-                        'background-position' : "cover"
+                        'background-size' : "cover"
                     };
 
                     $kjModal.preview(imageData).then(function(result) {
