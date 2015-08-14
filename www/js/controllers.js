@@ -46,6 +46,8 @@ angular.module('kjtogy.controllers', [])
 
 .controller('PotDashCtrl', function($scope, $ionicPlatform, $ionicPopover, $ionicPopup, $ionicLoading, $potService, $kjModal) {
     $ionicPlatform.ready(function() {
+        $scope.randomBackColor = ["#7ab815", "#beb016", "#58bacb", "#cb6b6b", "#9f7aff", "#cacaca"];
+
         $scope.pots = [];
 
         $scope.isLogin = false;
@@ -54,18 +56,20 @@ angular.module('kjtogy.controllers', [])
             $kjModal.showLogin().then(function(result) {
                 $scope.isLogin = result;
                 $potService.getPotsAll().then(
-                function(data) {
-                    $scope.pots = data;
-                },
-                function(error) {
-                    $ionicPopup.alert({
-                        title: 'Error',
-                        template: error,
-                        okText: '확 인',
-                        okType: 'button-assertive'
+                    function(data) {
+                        $scope.pots = data;
+                    },
+                    function(error) {
+                        $ionicPopup.alert({
+                            title: 'Error',
+                            template: error,
+                            okText: '확 인',
+                            okType: 'button-assertive'
+                        });
+
+                        console.error(error);
                     });
-                    console.error(error);
-                });
+
                 $scope.potTypes = $potService.getPotTypes();
                 $scope.pType = $scope.potTypes[0];
             });
@@ -152,14 +156,14 @@ angular.module('kjtogy.controllers', [])
     $potService.getImage($scope.pot.pId, 'mm').then(
         function(data) {
             if(data === '')
-                $scope.image = "http://placehold.it/360x360";
+                $scope.image = "img/no-data-flowerpot-360.png";
             else
                 $scope.image = "data:image/jpeg;base64," + data;
 
             $ionicLoading.hide();
         },
         function(error) {
-            $scope.image = "http://placehold.it/360x360";
+            $scope.image = "img/no-data-flowerpot-360.png";
 
             $ionicLoading.hide();
             console.error(error);
@@ -333,7 +337,8 @@ angular.module('kjtogy.controllers', [])
         $scope.pType = $scope.potTypes[0];
         $scope.delBtnHide = true;
 
-        $scope.backImage = {'background-image': "url('http://placehold.it/150x150')"};
+        $scope.backImage = {'background-image': "url('img/no-data-flowerpot-150.png')",
+                            'background-color': "#cacaca"};
 
     } else {
         $ionicLoading.show({
@@ -354,9 +359,10 @@ angular.module('kjtogy.controllers', [])
         $potService.getImage($scope.pot.pId, 'm')
         .then(function(data) {
             if(data === '') {
-                $scope.backImage = {'background-image': "url('http://placehold.it/150x150')"};
+                $scope.backImage = {'background-image': "url('img/no-data-flowerpot-150.png')",
+                                    'background-color': "#cacaca"};
             } else {
-                $scope.backImage = {'background-image': "url(data:image/jpeg;base64," + data + ")"};
+                $scope.backImage = {'background-image': "url(data:image/jpeg;base64,"+data+")"};
             }
             $ionicLoading.hide();
         },
@@ -368,6 +374,8 @@ angular.module('kjtogy.controllers', [])
                 okText: '확 인',
                 okType: 'button-assertive'
             });
+            $scope.backImage = {'background-image': "url('img/no-data-flowerpot-150.png')",
+                                'background-color': "#cacaca"};
         });
 
         $scope.deletePot = function() {

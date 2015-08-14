@@ -17,7 +17,8 @@
 }
 .item-avatar-left > img:first-child {
     border-radius: 5px;
-    top: 9px
+    top: 9px;
+    border: 1px solid #ddd;
 }
 .item-complex .item-content {
     padding-top: 10px;
@@ -124,7 +125,7 @@ a.item-content {
     top: 0px;
     left: 0px;
     text-align: right;
-    z-index: 1000;
+    z-index: 3000;
 }
 
 h3 {

@@ -45,7 +45,7 @@
                     <div style="text-align:center">등록된 데이터가 없습니다.</div>
                 </ion-item>
                 <ion-item ng-repeat="p in pots | filter:searchPot | typelist:pType.value" class="item item-avatar-left item-icon-right light-height pot-list" ng-click="viewDetail(p.pId)" >
-                    <img ng-src="(p.potImage) ? 'data:image/jpeg;base64,' + p.potImage : 'http://placehold.it/40x40'">
+                    <img ng-src="{{(p.potImage) ? 'data:image/jpeg;base64,'+p.potImage : 'img/no-data-flowerpot-40.png'}}" style="background-color:{{randomBackColor[p.potType]}}">
                     <div class="merge">
                         <h2>{{p.potName}}</h2>
                         <p>{{p.potSize}}</p>

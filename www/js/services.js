@@ -2,8 +2,8 @@ angular.module('kjtogy.services', [])
 .constant('SERVER_REST_URL', 'http://songsul.iptime.org:8080/api')
 
 .factory('$potService', function($http, $q, SERVER_REST_URL) {
-    var potItems = [
-        {
+    /***
+    {
             pId: 0,
             potName: '2021-W',
             potType: 1,
@@ -27,7 +27,8 @@ angular.module('kjtogy.services', [])
             potPrice: 19000,
             potTag: '다이아'
         }
-    ];
+    ***/
+    var potItems = [];
     
     var potTypes = [
         {name: '모든화분', value: ''},
@@ -46,6 +47,8 @@ angular.module('kjtogy.services', [])
     function getPotsAll() {
         var deferred = $q.defer();
 
+        // 테스트용
+        //deferred.resolve(potItems);
         $http.get(SERVER_REST_URL + '/pots')
             .success(function(result) {
                 if(result.result) {
@@ -98,7 +101,7 @@ angular.module('kjtogy.services', [])
                 if(result.result) {
                     for(var i=0, j=potItems.length; i<j; ++i) {
                         if(potItems[i].pId === id) {
-                            angular.extend(potItems[i], result.data);
+                            potItems.splice(i, 1, result.data);
                             break;
                         }
                     }
