@@ -54,12 +54,18 @@ angular.module('kjtogy.controllers', [])
 
         if(!$scope.isLogin) {
             $kjModal.showLogin().then(function(result) {
+                $ionicLoading.show({
+                    template:'<ion-spinner icon="android"></ion-spinner> Loading Data...'
+                });
+
                 $scope.isLogin = result;
                 $potService.getPotsAll().then(
                     function(data) {
                         $scope.pots = data;
+                        $ionicLoading.hide();
                     },
                     function(error) {
+                        $ionicLoading.hide();
                         $ionicPopup.alert({
                             title: 'Error',
                             template: error,
@@ -118,17 +124,13 @@ angular.module('kjtogy.controllers', [])
     }
     // end ionic Popover config
 
-    $scope.viewDetail = function(index) {
-        console.log(index);
-        $kjModal.viewDetail(index).then(function(result) {
-
-        });
+    $scope.viewDetail = function(id) {
+        console.log(id);
+        $kjModal.viewDetail(id).then(function(result) {});
     };
 
     $scope.addNewPot = function() {
-        $kjModal.addModPot(null).then(function(result) {
-
-        });
+        $kjModal.addModPot(null).then(function(result) {});
     };
 })
 
@@ -175,7 +177,7 @@ angular.module('kjtogy.controllers', [])
     };
 })
 
-.controller('PotAddModCtrl', function($scope, parameters, $ionicPlatform, $ionicPopover, $ionicActionSheet, $ionicPopup, $ionicLoading, $potService, $kjCamera, $kjModal) {
+.controller('PotAddModCtrl', function($scope, parameters, $ionicPlatform, $ionicPopover, $ionicActionSheet, $ionicPopup, $ionicLoading, $cordovaToast, $potService, $kjCamera, $kjModal) {
     var pot_image_data;
     var modal_close = $ionicPlatform.registerBackButtonAction(function() {
         delete pot_image_data;
@@ -286,16 +288,23 @@ angular.module('kjtogy.controllers', [])
             'potTag' : pot.potTag || ''
         };
 
+        $ionicLoading.show({
+            template:'<ion-spinner icon="android"></ion-spinner> 자료 업로드중...'
+        });
+
         if($scope.delBtnHide) { // 상품 추가시
             var d = new Date();
             angular.extend(params, {'createdAt' : d.getFullYear() + "-" + (d.getMonth()+1) + "-" + d.getDate()});
 
             $potService.addNewPot(params)
             .then(function(result) {
+                $ionicLoading.hide();
+                $cordovaToast.showShortBottom('자료 업로드 성공.');
                 console.log(result);
                 $scope.closeModal();
             },
             function(error) {
+                $ionicLoading.hide();
                 $ionicPopup.alert({
                     title: 'Error',
                     template: error,
@@ -307,11 +316,13 @@ angular.module('kjtogy.controllers', [])
         } else { // 상품 수정시
             $potService.updatePot($scope.pot.pId, params)
             .then(function(result) {
-
+                $ionicLoading.hide();
+                $cordovaToast.showShortBottom('자료 업로드 성공.');
                 console.log(result);
                 $scope.closeModal();
             },
             function(error) {
+                $ionicLoading.hide();
                 $ionicPopup.alert({
                     title: 'Error',
                     template: error,
