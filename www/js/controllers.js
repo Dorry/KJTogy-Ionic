@@ -184,11 +184,14 @@ angular.module('kjtogy.controllers', [])
 
             $scope.viewImage = function() {
                 if(data !== '') {
+                    $ionicLoading.show({
+                        template:'<ion-spinner icon="android"></ion-spinner> Loading Original Image...'
+                    });
+
                     $potService.getImage($scope.pot.pId, 'b').then(
                         function(imageData) {
-                            $kjModal.preview(imageData).then(function(result) {
-
-                            },
+                            $ionicLoading.hide();
+                            $kjModal.preview(imageData).then(function(result) {},
                             function(error) {
                                 $ionicPopup.alert({
                                     title: 'Error',
