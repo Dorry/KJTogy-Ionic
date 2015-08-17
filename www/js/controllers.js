@@ -78,6 +78,26 @@ angular.module('kjtogy.controllers', [])
 
                 $scope.potTypes = $potService.getPotTypes();
                 $scope.pType = $scope.potTypes[0];
+
+                $scope.doRefresh = function() {
+                    $potService.getPotsAll().then(
+                        function(data) {
+                            $scope.pots = data;
+                        },
+                        function(error) {
+                            $ionicPopup.alert({
+                                title: 'Error',
+                                template: error,
+                                okText: '확 인',
+                                okType: 'button-assertive'
+                            });
+
+                            console.error(error);
+                        })
+                    .finally(function() {
+                        $scope.$broadcast('scroll.refreshComplete');
+                    });
+                };
             });
         }
 
@@ -161,6 +181,26 @@ angular.module('kjtogy.controllers', [])
                 $scope.image = "img/no-data-flowerpot-360.png";
             else
                 $scope.image = "data:image/jpeg;base64," + data;
+
+            $scope.viewImage = function() {
+                if(data !== '') {
+                    $potService.getImage($scope.pot.pId, 'b').then(
+                        function(imageData) {
+                            $kjModal.preview(imageData).then(function(result) {
+
+                            },
+                            function(error) {
+                                $ionicPopup.alert({
+                                    title: 'Error',
+                                    template: error,
+                                    okText: '확 인',
+                                    okType: 'button-assertive'
+                                });
+                                console.error(error);
+                            });
+                        });
+                }
+            };
 
             $ionicLoading.hide();
         },
@@ -246,19 +286,6 @@ angular.module('kjtogy.controllers', [])
                         'background-size' : "cover",
                         'background-position' : "center"
                     };
-
-                    $kjModal.preview(imageData).then(function(result) {
-
-                    },
-                    function(error) {
-                        $ionicPopup.alert({
-                            title: 'Error',
-                            template: error,
-                            okText: '확 인',
-                            okType: 'button-assertive'
-                        });
-                        console.error(error);
-                    });
                 },
                 function(error) {
                     console.error(error);
@@ -340,7 +367,7 @@ angular.module('kjtogy.controllers', [])
         $scope.pot = {
             potName: '',
             potType: $scope.potTypes[0].value,
-            potPrice: 0,
+            potPrice: '',
             potSize: '',
             potImage: '',
             potTag: ''

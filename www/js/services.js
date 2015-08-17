@@ -79,7 +79,7 @@ angular.module('kjtogy.services', [])
         $http.post(SERVER_REST_URL + '/pots', params)
             .success(function(result) {
                 if(result.result) {
-                    potItems.push(result.data);
+                    potItems.splice(0, 0, result.data);
                     deferred.resolve(result.result);
                 } else {
                     deferred.reject(result.err_msg);

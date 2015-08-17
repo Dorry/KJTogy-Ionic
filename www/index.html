@@ -22,7 +22,7 @@
 
     <body ng-app="kjtogy" ng-controller="PotDashCtrl">
         <ion-header-bar align-title="left" class="bar-balanced" ng-show="isLogin">
-            <h1 class="title">상품</h1>
+            <h1 class="title"><img src="img/icon.png" style="vertical-align:middle">경진토기</h1>
             <div class="buttons">
                 <button class="button button-icon icon ion-plus icon-size-md" ng-click="addNewPot()"></button>
             </div>
@@ -40,6 +40,7 @@
             </div>
         </ion-header-bar>
         <ion-content class="has-subheader" ng-show="isLogin">
+            <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh()"></ion-refresher>
             <ion-list>
                 <ion-item ng-if="pots.length == 0">
                     <div style="text-align:center">등록된 데이터가 없습니다.</div>
