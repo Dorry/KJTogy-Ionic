@@ -38,15 +38,16 @@ angular.module('kjtogy.controllers', [])
             return;
         } else {
             for(u in secure) {
-                if(u.u_name == user.u_name) {
-                    if(u.pass != user.u_pass) {
+                console.log(u);
+                if(secure[u].u_name == user.u_name) {
+                    if(secure[u].pass != user.u_pass) {
                         $scope.user = {};
 
                         $ionicLoading.hide();
 
                         $ionicPopup.alert({
                             title:'로그인 오류',
-                            template:'잘못된 정보를 입력하셨습니다.<br> 확인하시고 다시 입력해주세요!',
+                            template:'비밀번호가 틀렸습니다.<br> 확인하시고 다시 입력해주세요!',
                             okType:'button-assertive'
                         });
                         return;
@@ -54,7 +55,7 @@ angular.module('kjtogy.controllers', [])
 
                     $ionicLoading.hide();
                     $scope.closeModal(true);
-                    return true;
+                    return;
                 }
             }
 
@@ -64,7 +65,7 @@ angular.module('kjtogy.controllers', [])
 
             $ionicPopup.alert({
                 title:'로그인 오류',
-                template:'잘못된 정보를 입력하셨습니다.<br> 확인하시고 다시 입력해주세요!',
+                template:'등록된 회원정보가 없습니다.<br> 확인하시고 다시 입력해주세요!',
                 okType:'button-assertive'
             });
             return;

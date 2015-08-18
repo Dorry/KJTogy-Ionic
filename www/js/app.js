@@ -1,5 +1,5 @@
 var Secure_Key = "SECURE.KEY";
-var doqfhrmdlskey = [{u_name:'dorry457',pass:'4365'}, {u_name:'flowerpig82',pass:'1590'}];
+var doqfhrmdlskey = [{u_name:'dorry457',pass:4365}, {u_name:'flowerpig82',pass:1590}];
 
 angular.module('kjtogy', ['ionic', 'kjtogy.controllers', 'kjtogy.services', 'ngCordova'])
 
