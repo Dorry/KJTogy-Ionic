@@ -2,8 +2,11 @@
 .item {
     border-color: #b6b6b6;
 }
+.item:nth-child(even) {
+    background-color: #ececec;
+}
 .item-avatar-left {
-    min-height: 50px
+    min-height: 59px
 }
 .item-avatar-left .item-content {
     min-height: 50px;

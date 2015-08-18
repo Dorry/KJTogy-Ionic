@@ -25,8 +25,39 @@ angular.module('kjtogy.controllers', [])
         });
 
         var secure = JSON.parse(window.localStorage.getItem(Secure_Key));
-        if(typeof user == 'undefined' || user == null ||
-          (user.u_name == "" || user.u_pass == "" || user.u_name != secure.u_name || user.u_pass != secure.pass)) {
+        if(typeof user == 'undefined' || user == null || (user.u_name == "" || user.u_pass == "")) {
+            $scope.user = {};
+
+            $ionicLoading.hide();
+
+            $ionicPopup.alert({
+                title:'로그인 오류',
+                template:'잘못된 정보를 입력하셨습니다.<br> 확인하시고 다시 입력해주세요!',
+                okType:'button-assertive'
+            });
+            return;
+        } else {
+            for(u in secure) {
+                if(u.u_name == user.u_name) {
+                    if(u.pass != user.u_pass) {
+                        $scope.user = {};
+
+                        $ionicLoading.hide();
+
+                        $ionicPopup.alert({
+                            title:'로그인 오류',
+                            template:'잘못된 정보를 입력하셨습니다.<br> 확인하시고 다시 입력해주세요!',
+                            okType:'button-assertive'
+                        });
+                        return;
+                    }
+
+                    $ionicLoading.hide();
+                    $scope.closeModal(true);
+                    return true;
+                }
+            }
+
             $scope.user = {};
 
             $ionicLoading.hide();
@@ -39,8 +70,6 @@ angular.module('kjtogy.controllers', [])
             return;
         }
 
-        $ionicLoading.hide();
-        $scope.closeModal(true);
     };
 })
 
