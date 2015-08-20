@@ -205,47 +205,53 @@ angular.module('kjtogy.controllers', [])
 
     $scope.pot = $potService.getPotById(parameters.id);
 
-    $potService.getImage($scope.pot.pId, 'mm').then(
-        function(data) {
-            if(data === '')
+    function loadingImage() {
+        $potService.getImage($scope.pot.pId, 'mm').then(
+            function(data) {
+                if(data === '')
+                    $scope.image = "img/no-data-flowerpot-360.png";
+                else
+                    $scope.image = "data:image/jpeg;base64," + data;
+
+
+                $ionicLoading.hide();
+            },
+            function(error) {
                 $scope.image = "img/no-data-flowerpot-360.png";
-            else
-                $scope.image = "data:image/jpeg;base64," + data;
 
-            $scope.viewImage = function() {
-                if(data !== '') {
-                    $ionicLoading.show({
-                        template:'<ion-spinner icon="android"></ion-spinner> Loading Original Image...'
-                    });
+                $ionicLoading.hide();
+                console.error(error);
+            });
+    }
 
-                    $potService.getImage($scope.pot.pId, 'b').then(
-                        function(imageData) {
-                            $ionicLoading.hide();
-                            $kjModal.preview(imageData).then(function(result) {},
-                            function(error) {
-                                $ionicPopup.alert({
-                                    title: 'Error',
-                                    template: error,
-                                    okText: '확 인',
-                                    okType: 'button-assertive'
-                                });
-                                console.error(error);
-                            });
+    loadingImage();
+
+    $scope.viewImage = function() {
+        if($scope.image.indexOf(".png") != -1 ) {
+            $ionicLoading.show({
+                template:'<ion-spinner icon="android"></ion-spinner> Loading Original Image...'
+            });
+
+            $potService.getImage($scope.pot.pId, 'b').then(
+                function(imageData) {
+                    $ionicLoading.hide();
+                    $kjModal.preview(imageData).then(function(result) {},
+                    function(error) {
+                        $ionicPopup.alert({
+                            title: 'Error',
+                            template: error,
+                            okText: '확 인',
+                            okType: 'button-assertive'
                         });
-                }
-            };
-
-            $ionicLoading.hide();
-        },
-        function(error) {
-            $scope.image = "img/no-data-flowerpot-360.png";
-
-            $ionicLoading.hide();
-            console.error(error);
-        });
+                        console.error(error);
+                    });
+                });
+        }
+    };
 
     $scope.modify = function(pot) {
         $kjModal.addModPot(angular.copy(pot)).then(function(result) {
+            loadingImage();
         });
     };
 })
@@ -361,7 +367,7 @@ angular.module('kjtogy.controllers', [])
                 $ionicLoading.hide();
                 $cordovaToast.showShortBottom('자료 업로드 성공.');
                 console.log(result);
-                $scope.closeModal();
+                $scope.closeModal(true);
             },
             function(error) {
                 $ionicLoading.hide();
@@ -379,7 +385,7 @@ angular.module('kjtogy.controllers', [])
                 $ionicLoading.hide();
                 $cordovaToast.showShortBottom('자료 업로드 성공.');
                 console.log(result);
-                $scope.closeModal();
+                $scope.closeModal(true);
             },
             function(error) {
                 $ionicLoading.hide();
@@ -435,7 +441,6 @@ angular.module('kjtogy.controllers', [])
             } else {
                 $scope.backImage = {'background-image': "url(data:image/jpeg;base64,"+data+")"};
             }
-            $ionicLoading.hide();
         },
         function(error) {
             $ionicLoading.hide();
@@ -447,6 +452,14 @@ angular.module('kjtogy.controllers', [])
             });
             $scope.backImage = {'background-image': "url('img/no-data-flowerpot-150.png')",
                                 'background-color': "#cacaca"};
+        });
+
+        $potService.getImage($scope.pot.pId, 'b')
+        .then(function(data) {
+            if(data !== '') {
+                pot_image_data = data;
+            }
+            $ionicLoading.hide();
         });
 
         $scope.deletePot = function() {
