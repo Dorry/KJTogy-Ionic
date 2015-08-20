@@ -227,7 +227,7 @@ angular.module('kjtogy.controllers', [])
     loadingImage();
 
     $scope.viewImage = function() {
-        if($scope.image.indexOf(".png") != -1 ) {
+        if($scope.image.indexOf(".png") === -1 ) {
             $ionicLoading.show({
                 template:'<ion-spinner icon="android"></ion-spinner> Loading Original Image...'
             });
@@ -251,6 +251,7 @@ angular.module('kjtogy.controllers', [])
 
     $scope.modify = function(pot) {
         $kjModal.addModPot(angular.copy(pot)).then(function(result) {
+            $scope.pot = $potService.getPotById(parameters.id);
             loadingImage();
         });
     };

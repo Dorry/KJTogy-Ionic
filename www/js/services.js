@@ -388,12 +388,14 @@ angular.module('kjtogy.services', [])
 
 .filter('posize', function() {
     return function(size) {
-        var sizes = size.split("x");
+        if(size.length > 0 && size != '') {
+            var sizes = size.split("x");
 
-        if(sizes.length < 3)
-            return "너비: " + sizes[0] + ", 높이: " + sizes[1];
-        else
-            return "가로: " + sizes[0] + ", 세로: " + sizes[1] + ", 높이: " + sizes[2];
+            if(sizes.length < 3)
+                return "너비: " + sizes[0] + ", 높이: " + sizes[1];
+            else
+                return "가로: " + sizes[0] + ", 세로: " + sizes[1] + ", 높이: " + sizes[2];
+        }
     };
 })
 
