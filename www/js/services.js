@@ -97,8 +97,7 @@ angular.module('kjtogy.services', [])
 
         $http.put(SERVER_REST_URL + '/pots/' + id, params)
             .success(function(result) {
-                var result = JSON.parse(result);
-                if(result.result) {
+               if(result.result) {
                     for(var i=0, j=potItems.length; i<j; ++i) {
                         if(potItems[i].pId === id) {
                             potItems.splice(i, 1, result.data);
